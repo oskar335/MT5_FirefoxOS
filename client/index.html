@@ -3,29 +3,16 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <title>MT5, the HTML5 multitrack player for musicians</title>
-        <ascript src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></ascript>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/view.js"></script>
-        <script src="js/waveformDrawer.js"></script>
-        <script src="js/track.js"></script>
-        <script src="js/song.js"></script>
-        <script src="js/buffer-loader.js"></script>
-        <script src="js/sound.js"></script>
-        <script src="js/jquery.knob.js"></script>
-        <script src="js/knob.js"></script>
-        <script src="js/utils.js"></script>
-        <script src="js/canvasArrows.js"></script>
-        <script src="js/range-touch.js"></script>
-        <script src="js/recorderjs/recorder.js"></script>
+        
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+		    <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body onload="init();">
 	
-	<div id="app">
+	<div id="app" class="container-fluid">
 	
 		<div id="console">
 		    <ul class="nav nav-tabs">
@@ -54,7 +41,8 @@
 	</div>
 	
 		<div id="masterTools">
-		<div style="position : absolute;width : 602px;">
+		<!-- <div style="position : absolute;width : 602px;"> -->
+    <div>
 			<h2 style="text-align : center;">MT5, the HTML5 Multitrack player !</h2>
 			
 			<span id="volume">
@@ -80,7 +68,7 @@
                     <button id="bstop" onclick="addNewTrackForRecord();"  type="button" class="btn btn-default btn-lg" disabled>
                       <span class="glyphicon glyphicon-record"></span>
                     </button>
-                     <button id="brecordMix" onclick="toggleRecordMix();"type="button" class="btn btn-default btn-lg" style="font-size: 10px;
+                     <button id="brecordMix" onclick="toggleRecordMix();" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
 padding: 0;" disabled>Record mix
                     </button>
 			    </td></tr>
@@ -123,7 +111,8 @@ padding: 0;" disabled>
     		</div>
     		<div id="canvass">
     			<div style="position: relative;">
-    				<canvas id="myCanvas" width="602" height="400" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+    				<!-- <canvas id="myCanvas" width="602" height="400" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas> -->
+            <canvas id="myCanvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
     				<canvas id="frontCanvas"                       style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
     			</div>
     		</div>
@@ -133,7 +122,20 @@ padding: 0;" disabled>
 	</div>
         
 
-
-        
+        <script src="js/AudioContextMonkeyPatch.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/view.js"></script>
+        <script src="js/waveformDrawer.js"></script>
+        <script src="js/track.js"></script>
+        <script src="js/song.js"></script>
+        <script src="js/buffer-loader.js"></script>
+        <script src="js/sound.js"></script>
+        <script src="js/jquery.knob.js"></script>
+        <script src="js/knob.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/canvasArrows.js"></script>
+        <script src="js/range-touch.js"></script>
+        <script src="js/recorderjs/recorder.js"></script>
     </body>
 </html>

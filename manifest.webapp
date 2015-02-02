@@ -1,0 +1,9 @@
+{
+  "name": "MT5",
+  "description": "Multi track song application",
+  "version": "1.0",
+  "launch_path": "/client/index.html",
+  "icons": {
+    "60": "/client/img/iconeTmp-60.png"
+  }
+}
