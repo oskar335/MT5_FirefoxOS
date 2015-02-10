@@ -35,7 +35,7 @@ app.use(express.static(path.resolve(__dirname, 'client')));
 // launch the http server on given port
 server.listen(PORT || 8081, function(){
   var addr = server.address();
-  console.log("Chat server listening at", addr.address + ":" + addr.port);
+  console.log("Chat server listening at localhost:" + addr.port);
 });
 
 
