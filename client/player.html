@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+
+	<title>MT5, the HTML5 multitrack player</title>
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/style2.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.theme.min.css">
+</head>
+
+<body>
+	<div class="container text-center">
+
+		<div class="spacer20"></div>
+		
+		<div class="row">		
+			<img src="..." alt="IMAGE ALBUM" class="img-thumbnail">
+		</div>
+
+		<div class="spacer20"></div>
+
+		<div class="row">	
+			<div class="btn-group btn-group-lg" role="group" id="loopBox">
+
+
+				<button class="btn btn-default" id="loopAB">
+					<span class="glyphicon glyphicon-retweet"></span> 
+				</button>
+				
+				<button id="loopReset" onclick="resetSelection();" type="button" class="btn btn-default">Reset</button>
+
+			<button id="loopOnOff" onclick="loopOnOff();"  type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-repeat"></span>
+			</button>
+			
+		</div>
+	</div>
+
+	<div class="spacer20"></div>
+
+	<div class="row">
+		<div class="btn-group btn-group-lg" role="group">
+			<button class="btn btn-default" id="saveMix">
+				<span class="glyphicon glyphicon-save-file"></span> 
+			</button>
+
+			<button class="btn btn-default " id="bplay" type="button">
+				<span class="glyphicon glyphicon-play"></span> 
+			</button>
+			<button class="btn btn-default" id="browse">
+				<span class="glyphicon glyphicon-folder-open"></span> 
+			</button>
+		</div>
+	</div>
+
+	<div class="spacer20"></div>
+
+	<div id="divSlider" class="row">
+		
+		<div class="col-xs-3" id="beginTime"></div>
+
+		<div class="col-xs-6">
+			<div id="slider"></div>
+		</div>
+		
+		<div class="col-xs-3" id="endTime"></div>
+	</div>
+
+	<div id="divSliderRange" class="row">
+		
+		<div class="col-xs-3" id="loopA"></div>
+
+		<div class="col-xs-6">
+			<div id="slider-range"></div>
+		</div>
+		
+		<div class="col-xs-3" id="loopB"></div>
+	</div>
+
+</div>
+
+</body>
+
+<script src="js/AudioContextMonkeyPatch.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/jquery.ui.touch.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/view.js"></script>
+<script src="js/waveformDrawer.js"></script>
+<script src="js/track.js"></script>
+<script src="js/song.js"></script>
+<script src="js/buffer-loader.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/jquery.knob.js"></script>
+<script src="js/knob.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/canvasArrows.js"></script>
+<script src="js/range-touch.js"></script>
+<script src="js/recorderjs/recorder.js"></script>
+<script src="js/player.js"></script>
+
+</html>

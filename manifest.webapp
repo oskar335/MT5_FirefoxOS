@@ -6,7 +6,8 @@
   "icons": {
     "60": "/client/img/iconeTmp-60.png"
   },
+  "type":"privileged",
   "permissions": {
-  	"device-storage:music":{ "access": "readonly" },
+  	"device-storage:sdcard":{ "access": "readwrite" }
 	}
 }
