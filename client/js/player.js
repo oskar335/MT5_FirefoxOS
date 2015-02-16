@@ -7,6 +7,12 @@ $("#bplay").click(function(){
 	span.toggleClass("glyphicon-play");
 });
 
+//Action du bouton play
+$("#loopAB").click(function(){
+  $(this).toggleClass("active");
+
+});
+
 // ******** Music slider (JQuery UI) ********
 
 //a init dynamiquement en fnt de la musique (duree de la musique)
@@ -32,6 +38,8 @@ function repositionTooltip( e, ui ){
 
   $("#beginTime").text(intToMinutes(beginTime));
 	$("#endTime").text("- " + intToMinutes(endTime));
+
+
 }
 
 $("#slider").slider({
@@ -62,8 +70,6 @@ $("#slider").slider({
   
 });
 
-
-
 //Permet de ne pas selectionner les elements du slider (permet de pouvoir deplacer le curseur)
 $("#divSlider").attr('unselectable','on')
      .css({'-moz-user-select':'-moz-none',
@@ -76,6 +82,39 @@ $("#divSlider").attr('unselectable','on')
      }).bind('selectstart', function(){ return false; });
 
 // ******** Fin slider ********
+
+// ******** Music slider range avec deux positions (JQuery UI) ********
+
+// $("#slider").slider({
+//   range: true,
+//   value: [dureeTotale/8 , dureeTotale/4],
+//   min: 0,
+//   max: dureeTotale,
+//   slide: repositionTooltip,
+//   //init 
+//   create : function(e, ui){
+//     $("#slider .ui-slider-handle:first").tooltip( {title: intToMinutes($("#slider").slider("value")), trigger: "manual"}).tooltip("show");
+//     var min = $("#slider").slider( "option", "min" );
+//     var max = $("#slider").slider( "option", "max" );
+//     var value = $("#slider").slider( "option", "value" ); 
+//     var endTime = max - value; 
+    
+//     $("#beginTime").text(intToMinutes(min));
+//     $("#endTime").text("- " + intToMinutes(endTime));
+//   },
+//   //Quand on lache le slider
+//   stop: function(e, ui){
+//     $("#slider .ui-slider-handle:first").tooltip("hide");
+//   },
+//   //Quand on commence a tenir le slider
+//   start: function(e, ui){
+//     $("#slider .ui-slider-handle:first").tooltip( {title: intToMinutes($("#slider").slider("value")), trigger: "manual"}).tooltip("show");
+//   }
+  
+// });
+
+
+// ******** Fin slider range ********
 
 //Convertit un nombre de secondes en mm:ss
 function intToMinutes(secs){
