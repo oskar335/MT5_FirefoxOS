@@ -1,10 +1,10 @@
+
 // Amine Hallili
 //hooking the interface object to the window
 window.View = new View();
 
 // The current song
 var currentSong;
-
 // The audio context
 var context;
 
@@ -48,6 +48,7 @@ window.requestAnimFrame = (function () {
 })();
 
 
+$(document).ready(init());
 function init() {
 
     View.init();
@@ -293,7 +294,9 @@ function finishedLoading(bufferList) {
 // ######### SONGS
 function loadSongList() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', "track", true);
+	
+    xhr.open('GET', localStorage.getItem("address")+"/track", true);
+    //xhr.open('GET', "http://localhost:8081/track", true);
 
     // Menu for song selection
     var s = $("<select id='songSelect'/>");
@@ -335,7 +338,6 @@ function loadSongList() {
     xhr.send();
 }
 
-
 // ##### TRACKS #####
 
 function loadSong(songName) {
@@ -347,8 +349,9 @@ function loadSong(songName) {
     currentSong = new Song(songName, context);
 
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', currentSong.url, true);
+    var xhr = new XMLHttpRequest({mozSystem: true});
+    xhr.open('GET', localStorage.getItem("address")+"/"+currentSong.url, true);
+    //xhr.open('GET', "http://localhost:8081/"+currentSong.url, true);
 
     xhr.onload = function (e) {
         // get a JSON description of the song
@@ -364,13 +367,19 @@ function loadSong(songName) {
 
             // Render HTMl
             var span = document.createElement('tr');
-            span.innerHTML = '<td class="trackBox" style="height : ' + SAMPLE_HEIGHT + 'px">' +
+           /* span.innerHTML = '<td class="trackBox" style="height : ' + SAMPLE_HEIGHT + 'px">' +
                 "<progress class='pisteProgress' id='progress" + trackNumber + "' value='0' max='100' style='width : " + SAMPLE_HEIGHT + "px' ></progress>" +
                 instrument.name + '<div style="float : right;">' +
                 "<button class='mute' id='mute" + trackNumber + "' onclick='muteUnmuteTrack(" + trackNumber + ");'><span class='glyphicon glyphicon-volume-up'></span></button> " +
                 "<button class='solo' id='solo" + trackNumber + "' onclick='soloNosoloTrack(" + trackNumber + ");'><img src='../img/earphones.png' /></button></div>" +
-                "<span id='volspan'><input type='range' class = 'volumeSlider custom' id='volume" + trackNumber + "' min='0' max = '100' value='100' oninput='setVolumeOfTrackDependingOnSliderValue(" + trackNumber + ");'/></span><td>";
-
+                "<span id='volspan'><input type='range' class = 'volumeSlider custom' id='volume" + trackNumber + "' min='0' max = '100' value='100' oninput='setVolumeOfTrackDependingOnSliderValue(" + trackNumber + ");'/></span><td>";*/
+			/**suppression des onCLICK et onInput INTERDIT daans application embarqué*/
+			span.innerHTML = '<td class="trackBox" style="height : ' + SAMPLE_HEIGHT + 'px">' +
+                "<progress class='pisteProgress' id='progress" + trackNumber + "' value='0' max='100' style='width : " + SAMPLE_HEIGHT + "px' ></progress>" +
+                instrument.name + '<div style="float : right;">' +
+                "<button class='mute' id='mute" + trackNumber + "<span class='glyphicon glyphicon-volume-up'></span></button> " +
+                "<button class='solo' id='solo" + trackNumber + "<img src='../img/earphones.png' /></button></div>" +
+                "<span id='volspan'><input type='range' class = 'volumeSlider custom' id='volume" + trackNumber + "' min='0' max = '100' value='100'/></span><td>";
             divTrack.appendChild(span);
 
         });
@@ -798,3 +807,7 @@ function toggleRecordMix() {
         log("Stop to save the mix as .wav");
     }
 }
+
+$("#bplay").click(function(){playAllTracks(0);});
+$("#bpause").click(pauseAllTracks());
+$("#bstop").click(stopAllTracks());

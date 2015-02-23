@@ -9,21 +9,64 @@ function BufferLoader(context, urlList, callback, callbackDraw) {
 
 BufferLoader.prototype.loadBuffer = function (url, index) {
   // Load buffer asynchronously
-  console.log('file : ' + url + "loading and decoding");
+	console.log('file : ' + url + "loading and decoding");
+	var urlData = url.replace("multitrack","MT5")
+	var loader = this;
+	var bufSong;
+	readMusic(urlData, function(result){
+		bufSong = result;
+	});
+	if(!bufSong){
+		var request = new XMLHttpRequest({mozSystem: true});
+		request.open("GET",localStorage.getItem("address")+"/"+url, true);
+		//console.log("http://localhost:8081/"+url);
+		//request.open("GET","http://localhost:8081/"+url, true);
 
-  var request = new XMLHttpRequest();
-  request.open("GET", url, true);
+		request.responseType = "arraybuffer"; 
+		request.onload = function () {
+			var file = request.response;
+			saveMusic(urlData,file);
+			// Asynchronously decode the audio file data in request.response
+			loader.context.decodeAudioData(
+			request.response,function(buffer){
+				getCallback(buffer,loader,index);
+			}
+			,function (error) {
+				console.error('decodeAudioData error', error);
+			}
+			);
+		};
 
-  request.responseType = "arraybuffer";
+		request.onprogress = function (e) {
+			// e.total - 100%
+			// e.value - ?
+			if (e.total !== 0) {
+				//var percent = (e.loaded * 100) / e.total;
+				//console.log("loaded " + percent  + "of song " + index);
+				var progress = document.querySelector("#progress" + index);
+				progress.value = e.loaded;
+				progress.max = e.total;
+			}
+		};
 
-  var loader = this;
+		request.onerror = function () {
+			alert('BufferLoader: XHR error');
+		};
 
-  request.onload = function () {
+		request.send();
+	}else{
+		loader.context.decodeAudioData(
+			bufSong,function(buffer){
+				getCallback(buffer,loader,index);
+			}
+			,function (error) {
+				console.error('decodeAudioData error', error);
+			}
+		);
+	}
+};
 
-    // Asynchronously decode the audio file data in request.response
-    loader.context.decodeAudioData(
-      request.response,
-      function (buffer) {
+function getCallback (buffer,loader,index) {
         log("Loaded and decoded track " + (loader.loadCount + 1) +
           "/" + loader.urlList.length + "...");
 
@@ -32,39 +75,15 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
           return;
         }
         loader.bufferList[index] = buffer;
-
+		
+		
         // Let's draw this decoded sample
         loader.drawSample(buffer, index);
 
         //console.log("In bufferLoader.onload bufferList size is " + loader.bufferList.length + " index =" + index);
         if (++loader.loadCount == loader.urlList.length)
           loader.onload(loader.bufferList);
-      },
-      function (error) {
-        console.error('decodeAudioData error', error);
-      }
-    );
-  };
-
-  request.onprogress = function (e) {
-    // e.total - 100%
-    // e.value - ?
-    if (e.total !== 0) {
-      //var percent = (e.loaded * 100) / e.total;
-
-      //console.log("loaded " + percent  + "of song " + index);
-      var progress = document.querySelector("#progress" + index);
-      progress.value = e.loaded;
-      progress.max = e.total;
-    }
-  };
-
-  request.onerror = function () {
-    alert('BufferLoader: XHR error');
-  };
-
-  request.send();
-};
+}
 
 BufferLoader.prototype.load = function () {
   // M.BUFFA added these two lines.

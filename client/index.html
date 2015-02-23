@@ -10,7 +10,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css" />
   </head>
-  <body onload="init();">
+  <body>
 
     <div id="app">
 
@@ -45,7 +45,7 @@
             <h2 style="text-align : center;">MT5, the HTML5 Multitrack player !</h2>
 
             <span id="volume">
-              <button id="bsound" onclick="masterMuteUnmute(this);" type="button" class="btn btn-default btn-lg master" style="margin-right: 28px;position: absolute;right: 0;margin-top: 28px;">
+              <button id="bsound"  type="button" class="btn btn-default btn-lg master" style="margin-right: 28px;position: absolute;right: 0;margin-top: 28px;">
                 <span class="glyphicon glyphicon-volume-up"></span>
               </button>
               <input id ="masterVolume" class="knob masterVolume" data-width="100" data-height="100" data-displayInput=false value="100">
@@ -53,44 +53,48 @@
 
             <table style="margin-left: auto; margin-right: auto;">
               <tr><td>
+<<<<<<< HEAD
                  <button type="button" class="btn btn-default btn-lg" data-toggle="tooltip" data-placement="top" title="Nouvelle version (test)" onclick="window.location='player.html'">
           <span class="glyphicon glyphicon glyphicon-fire"></span>
         </button>
                 <button id="bplay" type="button" class="btn btn-default btn-lg" onclick="playAllTracks(0);" disabled>
+=======
+                <button id="bplay" type="button" class="btn btn-default btn-lg" disabled>
+>>>>>>> origin/issue#10
                   <span class="glyphicon glyphicon-play"></span>
                 </button>
 
-                <button id="bpause" onclick="pauseAllTracks();" disabled type="button" class="btn btn-default btn-lg">
+                <button id="bpause"  disabled type="button" class="btn btn-default btn-lg">
                   <span class="glyphicon glyphicon-pause"></span>
                 </button>
 
-                <button id="bstop" onclick="stopAllTracks();"  type="button" class="btn btn-default btn-lg" disabled>
+                <button id="bstop"   type="button" class="btn btn-default btn-lg" disabled>
                   <span class="glyphicon glyphicon-stop"></span>
                 </button>
-                <button id="bstop" onclick="addNewTrackForRecord();"  type="button" class="btn btn-default btn-lg" disabled>
+                <button id="bstop" type="button" class="btn btn-default btn-lg" disabled>
                   <span class="glyphicon glyphicon-record"></span>
                 </button>
-                <button id="brecordMix" onclick="toggleRecordMix();"type="button" class="btn btn-default btn-lg" style="font-size: 10px;
+                <button id="brecordMix" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
                 padding: 0;" disabled>Record mix
               </button>
             </td></tr>
             <tr><td id="loopBox">
-              <button id="loopStart" onclick="setLoopStart();" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
+              <button id="loopStart"  type="button" class="btn btn-default btn-lg" style="font-size: 10px;
               padding: 0;" disabled>
               Start Loop
             </button>
 
-            <button id="loopEnd"  onclick="setLoopEnd();" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
+            <button id="loopEnd"   type="button" class="btn btn-default btn-lg" style="font-size: 10px;
             padding: 0;" disabled>
             End loop
           </button>
 
-          <button id="loopReset"  onclick="resetSelection();" type="button" class="btn btn-default btn-lg" style="font-size: 10px;
+          <button id="loopReset"  type="button" class="btn btn-default btn-lg" style="font-size: 10px;
           padding: 0;" disabled>
           Reset loop
         </button>
 
-        <button onclick="loopOnOff();" id="loopOnOff" type="button" class="btn btn-default btn-lg" disabled>
+        <button id="loopOnOff" type="button" class="btn btn-default btn-lg" disabled>
           <span class="glyphicon glyphicon-repeat"></span>
         </button>
        
@@ -121,12 +125,7 @@
     </div> 
 
   </div>
-
-
   </div>
-
-
-
 
   </body>
 
@@ -135,6 +134,7 @@
   <script src="js/view.js"></script>
   <script src="js/waveformDrawer.js"></script>
   <script src="js/track.js"></script>
+  <script src="js/persist.js"></script>
   <script src="js/song.js"></script>
   <script src="js/buffer-loader.js"></script>
   <script src="js/sound.js"></script>

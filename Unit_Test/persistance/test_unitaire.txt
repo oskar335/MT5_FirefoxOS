@@ -1,0 +1,2 @@
+test1:	DeviceStorage récupération d'une musique sur le serveur puis récupération du contenu dans un objet 
+test2:  DeviceStorage récupération d'une musique sur le serveur, suppresion,lecture
