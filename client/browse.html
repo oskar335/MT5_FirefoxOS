@@ -15,36 +15,28 @@
       <h1 class="col-xs-10 col-xs-offset-1">Parcourir...</h1>
     </div>
 
-    <div class="row"> 
-      <ol class="breadcrumb col-xs-10 col-xs-offset-1" id="ariane">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Library</a></li>
-        <li class="active">Data</li>
+    <div class="row">
+      <button class="btn btn-default col-xs-1 col-xs-offset-1"><span class="glyphicon glyphicon-level-up"></span></button>
+
+      <ol class="breadcrumb col-xs-9" id="ariane">
+        <li>/</li>
       </ol>
     </div>
 
-    <div class="row">
-      <button class="btn btn-default col-xs-10 col-xs-offset-1">&lt;&nbsp;Dossier parent</button>
-    </div>
-
-    <div class="spacer20"></div>
-
-    <div class="row">
+    <div class="row" id="file-list-row">
       <div class="col-xs-10 col-xs-offset-1">
-        <div class="list-group" id="file-list">
-          <a href="#" class="list-group-item">Let it go</a>
-          <a href="#" class="list-group-item">Poker face</a>
-          <a href="#" class="list-group-item">Halo</a>
-        </div>
+        <div class="list-group" id="file-list"></div>
       </div>
     </div>
 
     <div class="row">
-      <button class="btn btn-primary col-xs-10 col-xs-offset-1">Sélectionner le dossier courant</button>
+      <button class="btn btn-primary col-xs-8 col-xs-offset-2">Sélectionner le dossier courant</button>
     </div>
   </div>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/IOManager.js"></script>
+  <script src="js/browse.js"></script>
 </body>
 </html>
