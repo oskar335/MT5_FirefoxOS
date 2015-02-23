@@ -2,12 +2,13 @@
   "name": "MT5",
   "description": "Multi track song application",
   "version": "1.0",
-  "launch_path": "/client/index.html",
+  "launch_path": "/client/player.html",
   "icons": {
     "60": "/client/img/iconeTmp-60.png"
   },
   "type":"privileged",
   "permissions": {
+    "systemXHR": {},
   	"device-storage:sdcard":{ "access": "readwrite" }
 	}
 }
