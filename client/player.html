@@ -20,8 +20,12 @@
 
 		<div class="spacer20"></div>
 		
-		<div class="row">		
+		<div id="divImgAlbum" class="row">		
 			<img src="..." alt="IMAGE ALBUM" class="img-thumbnail">
+		</div>
+
+		<div id="listePiste" class="row list-group col-xs-9 col-xs-offset-2">
+
 		</div>
 
 		<div class="spacer20"></div>
@@ -34,9 +38,9 @@
 					<span class="glyphicon glyphicon-retweet"></span> 
 				</button>
 				
-				<button id="loopReset" onclick="resetSelection();" type="button" class="btn btn-default">Reset</button>
+				<button id="loopReset" type="button" class="btn btn-default">Reset</button>
 
-			<button id="loopOnOff" onclick="loopOnOff();"  type="button" class="btn btn-default">
+			<button id="loop" type="button" class="btn btn-default">
 				<span class="glyphicon glyphicon-repeat"></span>
 			</button>
 			
@@ -47,6 +51,7 @@
 
 	<div class="row">
 		<div class="btn-group btn-group-lg" role="group">
+
 			<button class="btn btn-default" id="saveMix">
 				<span class="glyphicon glyphicon-save-file"></span> 
 			</button>
@@ -84,16 +89,24 @@
 		<div class="col-xs-3" id="loopB"></div>
 	</div>
 
+	<div class="spacer20"></div>
+
+	<div class="row">
+		<button class="btn btn-default col-xs-8 col-xs-offset-2" id="toggleMultipiste" type="button">Mode Multipiste</button>
+	</div>	
 </div>
 
 </body>
 
-<script src="js/AudioContextMonkeyPatch.js"></script>
+
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.ui.touch.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/view.js"></script>
+<script src="js/player.js"></script>
+<script src="js/multipiste.js"></script>
+
+<!-- <script src="js/view.js"></script>
 <script src="js/waveformDrawer.js"></script>
 <script src="js/track.js"></script>
 <script src="js/song.js"></script>
@@ -102,9 +115,12 @@
 <script src="js/jquery.knob.js"></script>
 <script src="js/knob.js"></script>
 <script src="js/utils.js"></script>
-<script src="js/canvasArrows.js"></script>
-<script src="js/range-touch.js"></script>
-<script src="js/recorderjs/recorder.js"></script>
-<script src="js/player.js"></script>
+<script src="js/canvasArrows.js"></script> 
+<script src="js/range-touch.js"></script> 
+<script src="js/recorderjs/recorder.js"></script> 
+<script src="js/BufferLoader.js"></script> 
+<script src="js/WebAudio.js"></script> 
+<script src="js/AudioContextMonkeyPatch.js"></script> -->
+
 
 </html>
