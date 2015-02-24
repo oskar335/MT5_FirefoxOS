@@ -11,6 +11,9 @@ function Song(songName, context) {
     this.volume = 1;
     // elapsed time (since beginning, in seconds (float))
     this.elapsedTimeSinceStart;
+    // duration of the song
+    var duration;
+
 
     // song is paused ?
     this.paused = true;
@@ -80,7 +83,7 @@ function Song(songName, context) {
 
             // Plug a recorder node to the master volume node
             // Connect the master recorder node after the analyzer
-            //this.masterRecorderNode = new Recorder(this.masterVolumeNode);
+            this.masterRecorderNode = new Recorder(this.masterVolumeNode);
 
             // connect the analyzer to the speakers
             this.analyserNode.connect(context.destination);
@@ -90,29 +93,58 @@ function Song(songName, context) {
         // samples = the sound samples, it is necessary to store them in a
         // variable in order to be able so start/stop/pause the song
         this.sampleNodes = sources;
+        duration = this.getDuration();
     };
 
-    this.play = function (startTime) {
+    var startOffset = 0;
+    var startTime = 0;
+
+    this.play = function (time) {
         this.buildGraph();
 
         this.setTrackVolumesDependingOnMuteSoloStatus();
 
         this.elapsedTimeSinceStart = startTime;
 
+        startTime = context.currentTime;
+
         this.sampleNodes.forEach(function (s) {
             // First parameter is the delay before playing the sample
             // second one is the offset in the song, in seconds, can be 2.3456
             // very high precision !
-            s.start(0, startTime);
+            //s.start(0, startOffset % duration);
+            s.start(0,time);
         });
 
         this.paused = false;
 
-        // We start recording
-        if (this.recordMixMode) {
-            this.toggleRecording();
-        }
+        // // We start recording
+        // if (this.recordMixMode) {
+        //     this.toggleRecording();
+        // }
     };
+
+    // this.play = function (startTime) {
+    //     this.buildGraph();
+
+    //     this.setTrackVolumesDependingOnMuteSoloStatus();
+
+    //     this.elapsedTimeSinceStart = startTime;
+
+    //     this.sampleNodes.forEach(function (s) {
+    //         // First parameter is the delay before playing the sample
+    //         // second one is the offset in the song, in seconds, can be 2.3456
+    //         // very high precision !
+    //         s.start(0, startTime);
+    //     });
+
+    //     this.paused = false;
+
+    //     // // We start recording
+    //     // if (this.recordMixMode) {
+    //     //     this.toggleRecording();
+    //     // }
+    // };
 
     this.stop = function () {
         if (this.paused === true) return; // cannot stop more than once.
@@ -125,20 +157,27 @@ function Song(songName, context) {
 
         this.paused = true;
 
-        if (this.recordMixMode) {
-            // We stop recording
-            this.toggleRecording();
-        }
+        // if (this.recordMixMode) {
+        //     // We stop recording
+        //     this.toggleRecording();
+        // }
     };
 
     this.pause = function () {
-        if (!this.paused) {
-            // if we were not paused, then we stop
-            this.stop();
-        } else {
-            // else we start again from the previous position
-            this.play(this.elapsedTimeSinceStart);
-        }
+
+        this.sampleNodes.forEach(function(source) {
+            source.stop();
+        });
+
+         startOffset += context.currentTime - startTime;
+
+        // if (!this.paused) {
+        //     // if we were not paused, then we stop
+        //     this.stop();
+        // } else {
+        //     // else we start again from the previous position
+        //     this.play(this.elapsedTimeSinceStart);
+        // }
     };
 
     this.saveSongAsWav = function (fileName) {

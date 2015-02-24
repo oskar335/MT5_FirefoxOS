@@ -12,3 +12,9 @@
     bottom:120%;
     margin-left: -1.36em;
 }
+
+.customList{
+	height : 11em;
+	overflow: auto;
+	word-wrap: break-word;
+}

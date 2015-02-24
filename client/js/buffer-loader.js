@@ -18,9 +18,10 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 	});
 	if(!bufSong){
 		var request = new XMLHttpRequest({mozSystem: true});
-		request.open("GET",localStorage.getItem("address")+"/"+url, true);
+		//request.open("GET",localStorage.getItem("address")+"/"+url, true);
 		//console.log("http://localhost:8081/"+url);
-		//request.open("GET","http://localhost:8081/"+url, true);
+		//request.open("GET","http://localhost:8081/"+url, true); 
+		request.open("GET","http://192.168.6.213:8081/"+url, true);
 
 		request.responseType = "arraybuffer"; 
 		request.onload = function () {
@@ -43,9 +44,9 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 			if (e.total !== 0) {
 				//var percent = (e.loaded * 100) / e.total;
 				//console.log("loaded " + percent  + "of song " + index);
-				var progress = document.querySelector("#progress" + index);
-				progress.value = e.loaded;
-				progress.max = e.total;
+				// var progress = document.querySelector("#progress" + index);
+				// progress.value = e.loaded;
+				// progress.max = e.total;
 			}
 		};
 
@@ -67,7 +68,7 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 };
 
 function getCallback (buffer,loader,index) {
-        log("Loaded and decoded track " + (loader.loadCount + 1) +
+        console.log("Loaded and decoded track " + (loader.loadCount + 1) +
           "/" + loader.urlList.length + "...");
 
         if (!buffer) {
@@ -78,7 +79,7 @@ function getCallback (buffer,loader,index) {
 		
 		
         // Let's draw this decoded sample
-        loader.drawSample(buffer, index);
+        //loader.drawSample(buffer, index);
 
         //console.log("In bufferLoader.onload bufferList size is " + loader.bufferList.length + " index =" + index);
         if (++loader.loadCount == loader.urlList.length)
@@ -89,8 +90,8 @@ BufferLoader.prototype.load = function () {
   // M.BUFFA added these two lines.
   this.bufferList = [];
   this.loadCount = 0;
-  clearLog();
-  log("Loading tracks... please wait...");
+  //clearLog();
+  console.log("Loading tracks... please wait...");
   console.log("BufferLoader.prototype.load urlList size = " + this.urlList.length);
   for (var i = 0; i < this.urlList.length; ++i)
     this.loadBuffer(this.urlList[i], i);
