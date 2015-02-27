@@ -52,7 +52,7 @@ function readMusic(name, callback){
 		console.log("Get the file: " + result_file.name);
 		var reader = new FileReader();
 		reader.addEventListener("loadend", function() {
-			console.log("fin reader");
+			//console.log("fin reader");
 			callback(reader.result);
 		});
 		reader.readAsArrayBuffer(result_file);		

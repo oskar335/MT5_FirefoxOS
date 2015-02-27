@@ -15,13 +15,14 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 	var bufSong;
 	readMusic(urlData, function(result){
 		bufSong = result;
-	});
-	if(!bufSong){
+	
+	
+	if(bufSong === false){
 		var request = new XMLHttpRequest({mozSystem: true});
 		//request.open("GET",localStorage.getItem("address")+"/"+url, true);
 		//console.log("http://localhost:8081/"+url);
 		//request.open("GET","http://localhost:8081/"+url, true); 
-		request.open("GET","http://192.168.6.213:8081/"+url, true);
+		request.open("GET","http://192.168.6.171:8081/"+url, true);
 
 		request.responseType = "arraybuffer"; 
 		request.onload = function () {
@@ -65,6 +66,7 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 			}
 		);
 	}
+	});
 };
 
 function getCallback (buffer,loader,index) {

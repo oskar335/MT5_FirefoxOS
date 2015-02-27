@@ -281,11 +281,7 @@ function loadSongList() {
   var xhr = new XMLHttpRequest();
   
     //xhr.open('GET', localStorage.getItem("address")+"/track", true);
-<<<<<<< HEAD
     xhr.open('GET', "http://192.168.1.121:8081/track", true);
-=======
-    xhr.open('GET', "http://192.168.6.171:8081/track", true);
->>>>>>> 51b0e38c1b5811e066a2ef3128833f791eb60fa5
 
     // Menu for song selection
     var s = $("<select id='songSelect'/>");
@@ -341,12 +337,8 @@ currentSong = new Song(songName, context);
 
 var xhr = new XMLHttpRequest({mozSystem: true});
     // xhr.open('GET', localStorage.getItem("address")+"/"+currentSong.url, true);
-<<<<<<< HEAD
     xhr.open('GET', "http://192.168.1.121:8081/"+currentSong.url, true);
-=======
-    xhr.open('GET', "http://192.168.6.171:8081/"+currentSong.url, true);
->>>>>>> 51b0e38c1b5811e066a2ef3128833f791eb60fa5
-
+    
     xhr.onload = function (e) {
         // get a JSON description of the song
         var song = JSON.parse(this.response);
