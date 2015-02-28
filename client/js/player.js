@@ -20,7 +20,7 @@ $(document).ready(function(){
   context = initAudioContext();
 
   loadSongList();
-  loadSong("AdmiralCrumple_KeepsFlowing");
+  loadSong("Big Stone Culture - Fragile Thoughts");
 
   //Action du bouton play
   $(btnPlay).click(function(){
@@ -281,7 +281,8 @@ function loadSongList() {
   var xhr = new XMLHttpRequest();
   
     //xhr.open('GET', localStorage.getItem("address")+"/track", true);
-    xhr.open('GET', "http://192.168.1.121:8081/track", true);
+    //xhr.open('GET', "http://192.168.1.121:8081/track", true);
+    xhr.open('GET', "http://localhost:8081/track", true);
 
     // Menu for song selection
     var s = $("<select id='songSelect'/>");
@@ -337,8 +338,9 @@ currentSong = new Song(songName, context);
 
 var xhr = new XMLHttpRequest({mozSystem: true});
     // xhr.open('GET', localStorage.getItem("address")+"/"+currentSong.url, true);
-    xhr.open('GET', "http://192.168.1.121:8081/"+currentSong.url, true);
-    
+   // xhr.open('GET', "http://192.168.1.121:8081/"+currentSong.url, true);
+        xhr.open('GET', "http://localhost:8081/"+currentSong.url, true);
+
     xhr.onload = function (e) {
         // get a JSON description of the song
         var song = JSON.parse(this.response);
