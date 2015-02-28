@@ -120,15 +120,16 @@ $("#listePiste").delegate(".volume-solo","click",function(event){
 
 $("#listeMusique").delegate("a","click",function(event){
 	pauseAllTracks();
-      this.dataset.state = "play";
+      btnPlay.dataset.state = "play";
 	  updateBtnPlay();
 	  loadSong(this.firstChild.data);
+	  
 });
 
 
 $("#listeMusiqueServer").delegate("a","click",function(event){
 	  pauseAllTracks();
-      this.dataset.state = "play";
+      btnPlay.dataset.state = "play";
 	  updateBtnPlay();
 	  loadSong(this.firstChild.data);
  
