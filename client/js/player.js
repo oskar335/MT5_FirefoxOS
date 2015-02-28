@@ -278,12 +278,15 @@ $(btnBrowse).click(function(){
 	$(this).toggleClass("active");
 	 if(this.dataset.state === "local"){
 		$("#listeMusique").hide();
+		$(".liste").text("Liste serveur");
 		loadSongList();
 		$("#listeMusiqueServer").show();
 		this.dataset.state = "server";
     }else {
 		$("#listeMusiqueServer").hide();
 		$("#listeMusique").show();
+		$(".liste").text("Liste Local");
+
 		this.dataset.state = "local";
     }
 });
