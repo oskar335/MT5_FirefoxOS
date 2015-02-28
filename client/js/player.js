@@ -19,7 +19,7 @@ $(document).ready(function(){
   // Init audio context
   context = initAudioContext();
 
-  loadSongList();
+  //loadSongList();
   loadSong("Big Stone Culture - Fragile Thoughts");
 
   //Action du bouton play
@@ -255,6 +255,10 @@ $("#browseLocal").click(function(){
   window.location = "browse.html";
 });
 
+
+$("#browseServer").click(function(){
+  window.location = "choiceMusic.html";
+});
 // MODIF CONNECTION JS PROF
 
 
@@ -277,7 +281,7 @@ function initAudioContext() {
 
 
 // ######### SONGS
-function loadSongList() {
+/*function loadSongList() {
   var xhr = new XMLHttpRequest();
   
     //xhr.open('GET', localStorage.getItem("address")+"/track", true);
@@ -323,7 +327,7 @@ function loadSongList() {
       });
     };
     xhr.send();
-}
+}*/
 
 // ##### TRACKS #####
 
