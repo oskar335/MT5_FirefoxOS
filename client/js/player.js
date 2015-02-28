@@ -9,17 +9,18 @@ $(document).ready(function(){
   var intervalId = 0;
 
   var btnPlay = document.getElementById("bplay");
-
+  var btnBrowse = document.getElementById("browseServer");
   //Cache par defaut le slider boucle AB
   $("#divSliderRange").hide();
   $("#listePiste").hide();
+	$("#listeMusiqueServer").hide();
+
   //Desactive par defaut le reset boucle AB
   $("#loopReset").prop('disabled', true);
 
   // Init audio context
   context = initAudioContext();
 
-  //loadSongList();
   loadSong("Big Stone Culture - Fragile Thoughts");
 
   //Action du bouton play
@@ -90,8 +91,12 @@ $("#toggleMultipiste").click(function(){
     return text === "Mode Multipiste" ? "Mode Monopiste" : "Mode Multipiste";
   });
   $("#listePiste").toggle();
-  $("#listeMusique").toggle();
+  if(btnBrowse.dataset.state === "local" ){
+    $("#listeMusique").toggle();
 
+  }else{
+	$("#listeMusiqueServer").toggle();
+  }
 });
 
 
@@ -114,7 +119,19 @@ $("#listePiste").delegate(".volume-solo","click",function(event){
 });
 
 $("#listeMusique").delegate("a","click",function(event){
-  console.log(event);
+	pauseAllTracks();
+      this.dataset.state = "play";
+	  updateBtnPlay();
+	  loadSong(this.firstChild.data);
+});
+
+
+$("#listeMusiqueServer").delegate("a","click",function(event){
+	  pauseAllTracks();
+      this.dataset.state = "play";
+	  updateBtnPlay();
+	  loadSong(this.firstChild.data);
+ 
 });
 
 // ******** Music slider (JQuery UI) ********
@@ -256,8 +273,18 @@ $("#browseLocal").click(function(){
 });
 
 
-$("#browseServer").click(function(){
-  window.location = "choiceMusic.html";
+$(btnBrowse).click(function(){
+	$(this).toggleClass("active");
+	 if(this.dataset.state === "local"){
+		$("#listeMusique").hide();
+		loadSongList();
+		$("#listeMusiqueServer").show();
+		this.dataset.state = "server";
+    }else {
+		$("#listeMusiqueServer").hide();
+		$("#listeMusique").show();
+		this.dataset.state = "local";
+    }
 });
 // MODIF CONNECTION JS PROF
 
@@ -281,7 +308,7 @@ function initAudioContext() {
 
 
 // ######### SONGS
-/*function loadSongList() {
+function loadSongList() {
   var xhr = new XMLHttpRequest();
   
     //xhr.open('GET', localStorage.getItem("address")+"/track", true);
@@ -289,10 +316,8 @@ function initAudioContext() {
     xhr.open('GET', "http://localhost:8081/track", true);
 
     // Menu for song selection
-    var s = $("<select id='songSelect'/>");
-    s.appendTo("#songs");
-
-    s.change(function (e) {
+	var s = $("#listeMusiqueServer");
+   /* s.change(function (e) {
       var songName = $(this).val();
       console.log("You chose : " + songName);
 
@@ -305,29 +330,23 @@ function initAudioContext() {
               View.activeConsoleTab();
             }
           }
-        });
+        });*/
 
     xhr.onload = function (e) {
       var songList = JSON.parse(this.response);
 
-      if (songList[0]) {
-        $("<option />", {
-          value: "nochoice",
-          text: "Choose a song..."
-        }).appendTo(s);
-      }
+      
 
       songList.forEach(function (songName) {
         console.log(songName);
 
-        $("<option />", {
-          value: songName,
-          text: songName
-        }).appendTo(s);
+		s.append('<a href="#" class="list-group-item clearfix">' + songName + '</a>');
+
       });
     };
     xhr.send();
-}*/
+}
+
 
 // ##### TRACKS #####
 
@@ -353,6 +372,7 @@ var xhr = new XMLHttpRequest({mozSystem: true});
         //resizeSampleCanvas(song.instruments.length);
 
         var divPistes = $("#listePiste");
+		divPistes.empty();
         var groupeBoutonPiste = '<span class="pull-right">' + 
         '<button class="btn btn-sm volume-off">' +
         '<span class="glyphicon glyphicon-volume-off"></span>'+
