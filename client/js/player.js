@@ -10,10 +10,12 @@ $(document).ready(function(){
 
   var btnPlay = document.getElementById("bplay");
   var btnBrowse = document.getElementById("browseServer");
+  var btnBrowseLocal = document.getElementById("browseLocal");
+
   //Cache par defaut le slider boucle AB
   $("#divSliderRange").hide();
   $("#listePiste").hide();
-	$("#listeMusiqueServer").hide();
+  $("#listeMusiqueServer").hide();
 
   //Desactive par defaut le reset boucle AB
   $("#loopReset").prop('disabled', true);
@@ -21,7 +23,10 @@ $(document).ready(function(){
   // Init audio context
   context = initAudioContext();
 
-  loadSong("Big Stone Culture - Fragile Thoughts");
+  loadSongListLocal(); //initialise la liste des musiques en local
+  $(btnBrowseLocal).addClass("active");
+
+  //loadSong("Big Stone Culture - Fragile Thoughts");
 
   //Action du bouton play
   $(btnPlay).click(function(){
@@ -38,16 +43,26 @@ $(document).ready(function(){
     
   });
 
+  //Met a jour l'image du bouton en fnt de son état
   function updateBtnPlay() {
     //recupere le span qui contient le glyphicon 
     var span = $(btnPlay).find(".glyphicon");
 
     if(btnPlay.dataset.state == "play"){
       span.removeClass("glyphicon-pause");
+      span.removeClass("glyphicon-refresh glyphicon-refresh-animate");
       span.addClass("glyphicon-play");
-    } else {
-      span.addClass("glyphicon-pause");
+      btnPlay.disabled = false;
+    } else if (btnPlay.dataset.state == "pause") {
+      span.removeClass("glyphicon-refresh glyphicon-refresh-animate");
       span.removeClass("glyphicon-play");
+      span.addClass("glyphicon-pause");
+      btnPlay.disabled = false;
+    } else if (btnPlay.dataset.state == "loading") {
+      span.removeClass("glyphicon-pause");
+      span.removeClass("glyphicon-play");
+      span.addClass("glyphicon-refresh glyphicon-refresh-animate");
+      btnPlay.disabled = true;
     }
   }
 
@@ -87,24 +102,71 @@ $("#loop").click(function(){
 
 //Action du bouton mode multi/monopiste
 $("#toggleMultipiste").click(function(){
+  
   $(this).text(function(i, text){
     return text === "Mode Multipiste" ? "Mode Monopiste" : "Mode Multipiste";
   });
-  $("#listePiste").toggle();
-  if(btnBrowse.dataset.state === "local" ){
-    $("#listeMusique").toggle();
 
-  }else{
-	$("#listeMusiqueServer").toggle();
+  if ($(this).text() === "Mode Monopiste") {
+    $("#listeMusique").hide();
+    $("#listeMusiqueServer").hide();
+    showDivMultiPiste();
+  } else {
+    $("#listePiste").hide();
+    if($(btnBrowseLocal).hasClass("active")){
+      showDivLocalSong();
+    } else {
+      showDivServerSong();
+    }
+  }
+  
+});
+
+$(btnBrowseLocal).click(function(){
+  //window.location = "browse.html";
+  if(!$(this).hasClass("active")){
+    $(this).toggleClass("active");
+      $("#listeMusiqueServer").hide();
+      $("#listePiste").hide();
+      $("#toggleMultipiste").text("Mode Multipiste");
+      showDivLocalSong();
+      loadSongListLocal();
+      $(btnBrowse).removeClass("active");
   }
 });
 
 
+$(btnBrowse).click(function(){
+  if(!$(this).hasClass("active")){
+    $(this).addClass("active")
+    $("#listeMusique").hide();
+    $("#listePiste").hide();
+    $("#toggleMultipiste").text("Mode Multipiste");
+    showDivServerSong();
+    loadSongList();
+    $("#browseLocal").removeClass("active");
+  }
+  
+});
+
+function showDivLocalSong(){
+  $("#listeMusique").show();
+  $("#titreListe").text("Musiques locales");
+}
+
+function showDivServerSong(){
+  $("#listeMusiqueServer").show();
+  $("#titreListe").text("Musiques distantes");
+}
+
+function showDivMultiPiste(){
+  $("#listePiste").show();
+  $("#titreListe").text("Multipiste ON");
+}
+
 $(".btn btn-sm > .glyphicon glyphicon-volume-off").click(function(){
   $(this).toggleClass("active");
 });
-
-
 
 $("#listePiste").delegate(".volume-off","click",function(event){
   $(this).toggleClass("active");
@@ -119,20 +181,18 @@ $("#listePiste").delegate(".volume-solo","click",function(event){
 });
 
 $("#listeMusique").delegate("a","click",function(event){
-	pauseAllTracks();
-      btnPlay.dataset.state = "play";
-	  updateBtnPlay();
-	  loadSong(this.firstChild.data);
-	  
+  $(this).siblings().removeClass("active");
+  $(this).addClass("active");
+  pauseAllTracks();
+  loadLocalSong(this.firstChild.data);
 });
 
 
 $("#listeMusiqueServer").delegate("a","click",function(event){
-	  pauseAllTracks();
-      btnPlay.dataset.state = "play";
-	  updateBtnPlay();
-	  loadSong(this.firstChild.data);
- 
+  $(this).siblings().removeClass("active");
+  $(this).addClass("active");
+  pauseAllTracks();
+  loadSong(this.firstChild.data);
 });
 
 // ******** Music slider (JQuery UI) ********
@@ -177,6 +237,7 @@ $("#slider").slider({
       pauseAllTracks();
       playAllTracks(ui.value);
     }
+    updateDivSlider();
   },
   //Quand on commence a tenir le slider
   start: function(e, ui){
@@ -269,27 +330,8 @@ function intToMinutes(secs){
   return min + ":" + sec;
 }
 
-$("#browseLocal").click(function(){
-  window.location = "browse.html";
-});
 
 
-$(btnBrowse).click(function(){
-	$(this).toggleClass("active");
-	 if(this.dataset.state === "local"){
-		$("#listeMusique").hide();
-		$(".liste").text("Liste serveur");
-		loadSongList();
-		$("#listeMusiqueServer").show();
-		this.dataset.state = "server";
-    }else {
-		$("#listeMusiqueServer").hide();
-		$("#listeMusique").show();
-		$(".liste").text("Liste Local");
-
-		this.dataset.state = "local";
-    }
-});
 // MODIF CONNECTION JS PROF
 
 
@@ -313,14 +355,14 @@ function initAudioContext() {
 
 // ######### SONGS
 function loadSongList() {
-  var xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest({mozSystem: true});
   
     //xhr.open('GET', localStorage.getItem("address")+"/track", true);
-    //xhr.open('GET', "http://192.168.1.121:8081/track", true);
-    xhr.open('GET', "http://localhost:8081/track", true);
+    xhr.open('GET', "http://192.168.1.125:8081/track", true);
+    //xhr.open('GET', "http://localhost:8081/track", true);
 
     // Menu for song selection
-	var s = $("#listeMusiqueServer");
+    var s = $("#listeMusiqueServer");
    /* s.change(function (e) {
       var songName = $(this).val();
       console.log("You chose : " + songName);
@@ -336,19 +378,88 @@ function loadSongList() {
           }
         });*/
 
-    xhr.onload = function (e) {
-      var songList = JSON.parse(this.response);
+xhr.onload = function (e) {
+  var songList = JSON.parse(this.response);
+  s.empty();
+  songList.forEach(function (songName) {
+    console.log(songName);
+    if(songName.indexOf(".") != 0) //évite les fichiers/dossiers tq '.', '..', '.DS_Store' etc
+      if (currentSong && songName == currentSong.name)
+        s.append('<a href="#" class="list-group-item clearfix active">' + songName + '</a>');
+      else
+        s.append('<a href="#" class="list-group-item clearfix">' + songName + '</a>');
+  });
+};
+xhr.send();
+}
 
-      
+function isASoundFile(fileName) {
+    if(endsWith(fileName, ".mp3")) return true;
+    if(endsWith(fileName, ".ogg")) return true;
+    if(endsWith(fileName, ".wav")) return true;
+    return false;
+}
 
-      songList.forEach(function (songName) {
-        console.log(songName);
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
 
-		s.append('<a href="#" class="list-group-item clearfix">' + songName + '</a>');
+function loadSongListLocal(){
+  
+  //Clear up the list first
+  var tabSetMusique = new Set();
+  var tabSetMusiqueMt5 = new Set();
+  
+  var files = navigator.getDeviceStorage("music");
 
+  var cursor = files.enumerate();
+
+  var divListeMusique = $("#listeMusique");
+  divListeMusique.empty(); //vide la liste
+
+  cursor.onsuccess = function () {
+    //alert("Got something");
+    var file = this.result;
+
+    if (file != null) {
+      this.done = false;
+
+      if ( (file.name.indexOf("MT5") > -1) && (isASoundFile(file.name)) ) {
+        //musique importées de MT5
+        var tmp = file.name.split("MT5")[1];
+        var musique = tmp.split("/")[1];
+        tabSetMusiqueMt5.add(musique);
+      } else if( isASoundFile(file.name)){
+        //musiques du telephone
+        tabSetMusique.add(file.name);
+      }
+
+
+    }
+    else {
+      this.done = true;
+    }
+
+    if (!this.done) {
+      this.continue();
+    }else {
+      //Remplit la liste de musique MT5
+      tabSetMusiqueMt5.forEach(function(value) {
+        console.log(value);
+        if (currentSong && value == currentSong.name)
+          divListeMusique.append('<a href="#" class="list-group-item clearfix active">' + value + '</a>');
+        else 
+          divListeMusique.append('<a href="#" class="list-group-item clearfix">' + value + '</a>');
       });
-    };
-    xhr.send();
+
+      //liste de musiques en local (dossier music)
+      // tabSetMusique.forEach(function(value) {
+      //   console.log(value);
+      //   divListeMusique.append('<a href="#" class="list-group-item clearfix">' + value + '</a>');
+      // });
+
+    }
+  }
 }
 
 
@@ -356,6 +467,7 @@ function loadSongList() {
 
 function loadSong(songName) {
     //resetAllBeforeLoadingANewSong();
+    
 
     // This function builds the current
     // song and resets all states to default (zero muted and zero solo lists, all
@@ -365,18 +477,26 @@ currentSong = new Song(songName, context);
 
 var xhr = new XMLHttpRequest({mozSystem: true});
     // xhr.open('GET', localStorage.getItem("address")+"/"+currentSong.url, true);
-   // xhr.open('GET', "http://192.168.1.121:8081/"+currentSong.url, true);
-        xhr.open('GET', "http://localhost:8081/"+currentSong.url, true);
+    xhr.open('GET', "http://192.168.1.125:8081/"+currentSong.url, true);
+   //xhr.open('GET', "http://localhost:8081/"+currentSong.url, true);
+   
+  xhr.addEventListener("progress", progressLoading(), false);
+  xhr.addEventListener("load", loadingSong, false);
 
-    xhr.onload = function (e) {
-        // get a JSON description of the song
-        var song = JSON.parse(this.response);
+   function progressLoading(){
+    btnPlay.dataset.state = "loading";
+    updateBtnPlay();
+   }
 
+   function loadingSong(e) {
+    
+          // get a JSON description of the song
+          var song = JSON.parse(this.response);
         // resize canvas depending on number of samples
         //resizeSampleCanvas(song.instruments.length);
 
         var divPistes = $("#listePiste");
-		divPistes.empty();
+        divPistes.empty();
         var groupeBoutonPiste = '<span class="pull-right">' + 
         '<button class="btn btn-sm volume-off">' +
         '<span class="glyphicon glyphicon-volume-off"></span>'+
@@ -427,7 +547,80 @@ var xhr = new XMLHttpRequest({mozSystem: true});
       xhr.send();
     }
 
+function loadLocalSong(songName){
+
+  currentSong = new Song(songName, context);
+
+  function sendTrackLocal(track){
+    // get a JSON description of the song
+    var descrTrack = JSON.stringify(track);
+    console.log("descr track : " + descrTrack);
+    var song = JSON.parse(descrTrack);
+    console.log("song : " + song);
+
+    var divPistes = $("#listePiste");
+    divPistes.empty();
+    var groupeBoutonPiste = '<span class="pull-right">' + 
+                              '<button class="btn btn-sm volume-off">' +
+                                '<span class="glyphicon glyphicon-volume-off"></span>'+
+                              '</button> '+ 
+                              '<button class="btn btn-sm volume-solo">' +
+                                '<span class="glyphicon glyphicon-headphones"></span>'+
+                              '</button>'+
+                            '</span>';
+
+    // for eah instrument/track in the song
+    song.instruments.forEach(function (instrument, trackNumber) {
+      // Let's add a new track to the current song for this instrument
+      currentSong.addTrack(instrument);
+      divPistes.append('<a href="#" class="list-group-item clearfix">'+ instrument.name + groupeBoutonPiste + '</a>');
+    });
+  }
+
+  getLocalTrack(songName,sendTrackLocal);
+}
+
+function getLocalTrack(songName,callback){
+  var track = {
+      id: songName,
+      instruments: [] 
+  };
+
+  var files = navigator.getDeviceStorage("music");
+
+  var cursor = files.enumerate();
+
+  cursor.onsuccess = function () {
+    //alert("Got something");
+    var file = this.result;
+
+    if (file != null && !isASoundFile(songName)) {
+      this.done = false;
+
+      if(file.name.indexOf("MT5/" + songName) > -1){
+        var tmp = file.name.split("MT5")[1];
+        var instrument = tmp.split("/")[2].match(/(.*)\.[^.]+$/, '')[1];
+        track.instruments.push({
+          name: instrument,
+          sound: tmp.split("/")[2]
+        });
+      } 
+
+    }
+    else {
+      this.done = true;
+    }
+
+    if (!this.done) {
+      this.continue();
+    }else {
+      callback(track);
+      loadAllSoundSamples();
+    }
+  }
+}
     function loadAllSoundSamples() {
+      
       bufferLoader = new BufferLoader(
         context,
         currentSong.getUrlsOfTracks(),
@@ -435,8 +628,6 @@ var xhr = new XMLHttpRequest({mozSystem: true});
         //drawTrack
         );
       bufferLoader.load();
-
-
     }
 
     function playAllTracks() {
@@ -447,40 +638,40 @@ var xhr = new XMLHttpRequest({mozSystem: true});
     //setMasterVolume();
 
     
-      
+
     var intDuree = Math.round(dureeTotale * 100) / 100;      
 
     if($("#divSlider").css("display") == "block"){
 
       if($("#slider").slider("option","value") >= intDuree){
-      $("#slider").slider("option","value",0);
-    }
-  
-      
-    intervalId = setInterval(function(){
+        $("#slider").slider("option","value",0);
+      }
 
-      if(btnPlay.dataset.state === "pause"){
-        var val = $("#slider").slider("option","value");
-        val += 0.1;
-        
-        if(val!=intDuree) {
-          $("#slider").slider("option","value",val);
-          updateDivSlider();
-        } 
-        
-        if(val >= intDuree) {
+      
+      intervalId = setInterval(function(){
+
+        if(btnPlay.dataset.state === "pause"){
+          var val = $("#slider").slider("option","value");
+          val += 0.1;
+
+          if(val!=intDuree) {
+            $("#slider").slider("option","value",val);
+            updateDivSlider();
+          } 
+
+          if(val >= intDuree) {
+            window.clearInterval(intervalId);
+            btnPlay.dataset.state = "play";
+            $(btnPlay).find(".glyphicon").toggleClass("glyphicon-pause");
+            $(btnPlay).find(".glyphicon").toggleClass("glyphicon-play");
+          }
+        }
+        else {
           window.clearInterval(intervalId);
-          btnPlay.dataset.state = "play";
-          $(btnPlay).find(".glyphicon").toggleClass("glyphicon-pause");
-          $(btnPlay).find(".glyphicon").toggleClass("glyphicon-play");
-       }
-      }
-      else {
-        window.clearInterval(intervalId);
-      }
-    }, 100);
-    
-  
+        }
+      }, 100);
+
+
       // Starts playing
       currentSong.play($("#slider").slider("option","value"));  
 
@@ -503,7 +694,7 @@ var xhr = new XMLHttpRequest({mozSystem: true});
             window.clearInterval(intervalId);
             pauseAllTracks();
             playAllTracks();
-         }
+          }
         }
         else {
           // window.clearInterval(intervalId);
@@ -514,7 +705,7 @@ var xhr = new XMLHttpRequest({mozSystem: true});
 
 
     
-      
+
     // Set each track volume depending on slider value
     //for (i = 0; i < currentSong.getNbTracks(); i++) {
         // set volume gain of track i the value indicated by the slider
@@ -544,7 +735,8 @@ var xhr = new XMLHttpRequest({mozSystem: true});
   }
 
   function pauseAllTracks() {
-    currentSong.pause();
+    if(currentSong != null)
+      currentSong.pause();
 
     if(intervalId != 0 ){
       window.clearInterval(intervalId);
@@ -555,6 +747,9 @@ var xhr = new XMLHttpRequest({mozSystem: true});
   }
 
   function finishedLoading(bufferList) {
+    btnPlay.dataset.state = "loading";
+    $("#titleCurrentSong").text(currentSong.name);
+    updateBtnPlay();
     console.log("Finished loading all tracks, press Start button above!");
 
     // set the decoded buffer in the song object
@@ -563,6 +758,11 @@ var xhr = new XMLHttpRequest({mozSystem: true});
     //a init dynamiquement en fnt de la musique (duree de la musique)
     dureeTotale = currentSong.getDuration();
     initSlide();
+    updateDivSlider();
+    updateDivSliderRange();
+    
+    btnPlay.dataset.state = "play";
+    updateBtnPlay();
     // buttonPlay.disabled = false;
     // buttonRecordMix.disabled = false;
 
@@ -663,4 +863,6 @@ var xhr = new XMLHttpRequest({mozSystem: true});
   }
 
 });
+
+
 

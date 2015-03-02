@@ -21,8 +21,8 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 		var request = new XMLHttpRequest({mozSystem: true});
 		//request.open("GET",localStorage.getItem("address")+"/"+url, true);
 		//console.log("http://localhost:8081/"+url);
-		request.open("GET","http://localhost:8081/"+url, true); 
-		//request.open("GET","http://192.168.6.171:8081/"+url, true);
+		//request.open("GET","http://localhost:8081/"+url, true); 
+		request.open("GET","http://192.168.1.125:8081/"+url, true);
 
 		request.responseType = "arraybuffer"; 
 		request.onload = function () {

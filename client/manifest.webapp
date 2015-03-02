@@ -4,7 +4,7 @@
   "version": "1.0",
   "launch_path": "/player.html",
   "icons": {
-    "60": "/client/img/iconeTmp-60.png"
+    "60": "/img/iconeTmp-60.png"
   },
    "type": "privileged",
 	"permissions": {

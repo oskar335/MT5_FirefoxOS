@@ -17,7 +17,7 @@ function saveMusic(name,arrayBuf){
 		blob = new Blob([arrayBuf],{type: "audio/wav"});
 	}
 	
-	var sdcard = navigator.getDeviceStorage("sdcard");
+	var sdcard = navigator.getDeviceStorage("music");
 	/*ajout fichier dans deviceStorage*/
 	var requestMusic = sdcard.addNamed(blob,name);
 	requestMusic.onsuccess = function () {
@@ -31,7 +31,7 @@ function saveMusic(name,arrayBuf){
 /*suppresion musique: name  == MT5/nomdossier/nomdufichier */
 function deletedMusic(name){
 	
-	var sdcard = navigator.getDeviceStorage("sdcard");
+	var sdcard = navigator.getDeviceStorage("music");
 	var requestDel = sdcard.delete(name);
 	
 	requestDel.onsuccess = function () {	
@@ -44,7 +44,7 @@ function deletedMusic(name){
 }
 /*Lecture musique: name  == MT5/nomdossier/nomdufichier */
 function readMusic(name, callback){
-	var sdcard = navigator.getDeviceStorage("sdcard");
+	var sdcard = navigator.getDeviceStorage("music");
 	var requestDown = sdcard.get(name);
 	
 	requestDown.onsuccess = function () {

@@ -50,7 +50,7 @@ app.get('/track', function (req, res) {
 	function sendTracks(trackList) {
 		if (!trackList)
 			return res.send(404, 'No track found');
-		res.writeHead(200, { 'Content-Type': 'application/json' , 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT'});
+		res.writeHead(200, { 'Content-Type': 'application/json' , 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT'});
 		res.write(JSON.stringify(trackList));
 		res.end();
 	}
@@ -67,7 +67,7 @@ app.get('/track/:id', function (req, res) {
 		if (!track)
 			return res.send(404, 'Track not found with id "' + id + '"');
 		
-		res.writeHead(200, { 'Content-Type': 'application/json' , 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT'});
+		res.writeHead(200, { 'Content-Type': 'application/json' , 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT'});
 		res.write(JSON.stringify(track));
 		res.end();
 	}
