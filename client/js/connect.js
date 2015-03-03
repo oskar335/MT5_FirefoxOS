@@ -22,4 +22,11 @@ $(document).ready(function() {
 			return false;
 		}
 	});
+
+	$("#modeHorsConnexion").click(function(){
+
+		localStorage.setItem('address', "");
+		window.location = "player.html";
+
+	});
 })
