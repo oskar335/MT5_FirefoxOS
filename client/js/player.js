@@ -11,6 +11,7 @@ $(document).ready(function(){
   var btnPlay = document.getElementById("bplay");
   var btnBrowse = document.getElementById("browseServer");
   var btnBrowseLocal = document.getElementById("browseLocal");
+  var addresse=localStorage.getItem("address");
 
   //Cache par defaut le slider boucle AB
   $("#divSliderRange").hide();
@@ -356,10 +357,9 @@ function initAudioContext() {
 // ######### SONGS
 function loadSongList() {
   var xhr = new XMLHttpRequest({mozSystem: true});
-  
-    //xhr.open('GET', localStorage.getItem("address")+"/track", true);
-    xhr.open('GET', "http://192.168.6.171:8081/track", true);
-    //xhr.open('GET', "http://localhost:8081/track", true);
+
+    xhr.open('GET', addresse+"/track", true);
+    //xhr.open('GET', "http://192.168.1.121:8081/track", true);
 
     // Menu for song selection
     var s = $("#listeMusiqueServer");
@@ -460,9 +460,7 @@ currentSong = new Song(songName, context);
 
 
 var xhr = new XMLHttpRequest({mozSystem: true});
-    // xhr.open('GET', localStorage.getItem("address")+"/"+currentSong.url, true);
-    xhr.open('GET', "http://192.168.6.171:8081/"+currentSong.url, true);
-   //xhr.open('GET', "http://localhost:8081/"+currentSong.url, true);
+    xhr.open('GET', addresse +"/"+currentSong.url, true);
    
   xhr.addEventListener("progress", progressLoading(), false);
   xhr.addEventListener("load", loadingSong, false);

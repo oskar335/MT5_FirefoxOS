@@ -2,7 +2,7 @@
   "name": "MT5",
   "description": "Multi track song application",
   "version": "1.0",
-  "launch_path": "/player.html",
+  "launch_path": "/initialisation.html",
   "icons": {
     "128": "/img/icon_128x128.png",
     "512": "/img/icon_512x512.png"
