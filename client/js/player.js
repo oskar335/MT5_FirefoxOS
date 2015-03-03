@@ -11,6 +11,7 @@ $(document).ready(function(){
   var btnPlay = document.getElementById("bplay");
   var btnBrowse = document.getElementById("browseServer");
   var btnBrowseLocal = document.getElementById("browseLocal");
+
   var addresse=localStorage.getItem("address");
 
   //Cache par defaut le slider boucle AB
@@ -27,7 +28,10 @@ $(document).ready(function(){
   loadSongListLocal(); //initialise la liste des musiques en local
   $(btnBrowseLocal).addClass("active");
 
-  //loadSong("Big Stone Culture - Fragile Thoughts");
+  if(addresse == ""){
+    $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-globe");
+    $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-log-in");
+  }
 
   //Action du bouton play
   $(btnPlay).click(function(){
@@ -138,14 +142,20 @@ $(btnBrowseLocal).click(function(){
 
 
 $(btnBrowse).click(function(){
-  if(!$(this).hasClass("active")){
-    $(this).addClass("active")
-    $("#listeMusique").hide();
-    $("#listePiste").hide();
-    $("#toggleMultipiste").text("Mode Multipiste");
-    showDivServerSong();
-    loadSongList();
-    $("#browseLocal").removeClass("active");
+  var span = $(this).find(".glyphicon");
+
+  if(span.hasClass("glyphicon-globe")){
+    if(!$(this).hasClass("active")){
+      $(this).addClass("active")
+      $("#listeMusique").hide();
+      $("#listePiste").hide();
+      $("#toggleMultipiste").text("Mode Multipiste");
+      showDivServerSong();
+      loadSongList();
+      $("#browseLocal").removeClass("active");
+    }
+  } else {
+    window.location = "initialisation.html";
   }
   
 });
@@ -186,14 +196,21 @@ $("#listeMusique").delegate("a","click",function(event){
   $(this).addClass("active");
   pauseAllTracks();
   loadLocalSong(this.firstChild.data);
-});
 
+  if($("#loopAB").hasClass("active")){
+    $("#loopAB").click();
+  }
+});
 
 $("#listeMusiqueServer").delegate("a","click",function(event){
   $(this).siblings().removeClass("active");
   $(this).addClass("active");
   pauseAllTracks();
   loadSong(this.firstChild.data);
+
+  if($("#loopAB").hasClass("active")){
+    $("#loopAB").click();
+  }
 });
 
 // ******** Music slider (JQuery UI) ********

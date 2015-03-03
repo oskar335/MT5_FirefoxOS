@@ -5,62 +5,52 @@
 	<head>
 	
 		<title>Page initialisation MT5</title>
-        <meta charset="UTF-8">
-		
-		<!-- Liens vers fichiers CSS exterieurs -->
-		<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
-	
-		<link rel="stylesheet" type="text/css" href="./css/page_initialisation.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+	<link rel="stylesheet" type="text/css" href="./css/page_initialisation.css">
 
-		<!-- Liens vers fichiers JS exterieurs -->
-		<script type="text/javascript" src="./js/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
-		<script src="./js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="./js/connect.js"></script>
-		<script type="text/javascript" src="./js/page_initialisation.js"></script>
+		
 	
 	</head>
 
 	<body>
 
 		<!-- Formulaire de connexion a un serveur de recuperation -->
-		<div>
+		<div class="container">
 
-			<h1 class="text-center">Bienvenue sur MT5<br/>Le lecteur multipiste</h1>
-			
-			<form id="connect" class="center-block" action="player.html" method="POST">
+			<div class="row">
+				<h1 class="text-center">Bienvenue sur MT5<br/>Le lecteur multipiste</h1>
+			</div>
 
-				<label for="server">Serveur :</label><br/>
-				<input type="text" name="server" id="server" placeholder="Adresse du serveur">
-				<br/>
+			<form class="col-xs-offset-3 text-center" id="connect" role="form" action="player.html" method="POST">
 
-				<label for="port">Port :</label><br/>
-				<input type="text" name="port" id="port" placeholder="Numéro du port">
-				<br/>
+				
+				    <div class="form-group">
+				      <label for="server">Serveur :</label>
+				      <input type="text" class="form-control" id="server" placeholder="Adresse">
+				    </div>
 
-				<input type="submit" value="GO" class="btn btn-primary center-block buttonCentre">
-			
+				    <div class="form-group">
+				      <label for="port">Port :</label>
+				      <input type="number" class="form-control" id="port" placeholder="Numéro du port">
+				    </div>
+				    <button type="submit" class="btn btn-default">GO</button>
 			</form>
 
-		</div>
-
-
-		<!-- Selectionner un fichier son -->
-		<div>
-
-			<h1 class="text-center">Ou importer depuis<br/>l'appareil :</h1>
-
-			<!--<a href="./browse.html" target="_self" class="btn btn-primary btn-lg active center-block lienCentre" role="button">Importer</a>-->
-			<div id="inputFiles" class="center-block lienCentre">
-				<input type="file" class="filestyle" data-input="false">
+			<div class="row col-xs-8 col-xs-offset-2 text-center">
+				<button class="btn btn-default" id="modeHorsConnexion">
+					Mode hors connexion
+				</button>
 			</div>
-			<input class="btn btn-primary btn-lg active center-block lienCentre" type="submit" value="Importer">
 
 		</div>
+	
 
+		<script src="js/jquery.min.js"></script>
+		<script src=".js/bootstrap.min.js"></script>
+		<script src="js/connect.js"></script>
 	</body>
 
 </html>
