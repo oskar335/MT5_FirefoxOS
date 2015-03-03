@@ -235,6 +235,17 @@ function Song(songName, context) {
         return urls;
     };
 
+	 // load all sound samples asyncrhonously
+    this.getUrlsOfTracksLoc = function () {
+        // the buffer loader class requires an array of urls, let's build
+        // this array from all tracks' urls
+        var urls = [];
+        this.tracks.forEach(function (track) {
+            urls.push(track.urlLoc);
+        });
+
+        return urls;
+    };
     this.getDuration = function () {
         if (this.decodedAudioBuffers !== undefined) {
             return this.decodedAudioBuffers[0].duration;

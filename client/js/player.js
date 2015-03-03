@@ -358,25 +358,11 @@ function loadSongList() {
   var xhr = new XMLHttpRequest({mozSystem: true});
   
     //xhr.open('GET', localStorage.getItem("address")+"/track", true);
-    xhr.open('GET', "http://192.168.1.125:8081/track", true);
+    xhr.open('GET', "http://192.168.6.171:8081/track", true);
     //xhr.open('GET', "http://localhost:8081/track", true);
 
     // Menu for song selection
     var s = $("#listeMusiqueServer");
-   /* s.change(function (e) {
-      var songName = $(this).val();
-      console.log("You chose : " + songName);
-
-      if (songName !== "nochoice") {
-            // We load if there is no current song or if the current song is
-            // different than the one chosen
-            if ((currentSong === undefined) || ((currentSong !== undefined) && (songName !== currentSong.name))) {
-              loadSong(songName);
-
-              View.activeConsoleTab();
-            }
-          }
-        });*/
 
 xhr.onload = function (e) {
   var songList = JSON.parse(this.response);
@@ -424,12 +410,12 @@ function loadSongListLocal(){
     if (file != null) {
       this.done = false;
 
-      if ( (file.name.indexOf("MT5") > -1) && (isASoundFile(file.name)) ) {
+      if (file.name.indexOf("MT5") > -1) {
         //musique importées de MT5
         var tmp = file.name.split("MT5")[1];
         var musique = tmp.split("/")[1];
         tabSetMusiqueMt5.add(musique);
-      } else if( isASoundFile(file.name)){
+      } else if(isASoundFile(file.name)){
         //musiques du telephone
         tabSetMusique.add(file.name);
       }
@@ -447,16 +433,17 @@ function loadSongListLocal(){
       tabSetMusiqueMt5.forEach(function(value) {
         console.log(value);
         if (currentSong && value == currentSong.name)
-          divListeMusique.append('<a href="#" class="list-group-item clearfix active">' + value + '</a>');
+          divListeMusique.append('<a href="#" class="list-group-item list-group-item-success clearfix active">' + value + '</a>');
         else 
-          divListeMusique.append('<a href="#" class="list-group-item clearfix">' + value + '</a>');
+          divListeMusique.append('<a href="#" class="list-group-item list-group-item-success clearfix">' + value + '</a>');
       });
 
       //liste de musiques en local (dossier music)
-      // tabSetMusique.forEach(function(value) {
-      //   console.log(value);
-      //   divListeMusique.append('<a href="#" class="list-group-item clearfix">' + value + '</a>');
-      // });
+      tabSetMusique.forEach(function(value) {
+         console.log(value);
+		 if(isASoundFile(value))
+			divListeMusique.append('<a href="#" class="list-group-item clearfix">' + value + '</a>');
+     });
 
     }
   }
@@ -466,9 +453,6 @@ function loadSongListLocal(){
 // ##### TRACKS #####
 
 function loadSong(songName) {
-    //resetAllBeforeLoadingANewSong();
-    
-
     // This function builds the current
     // song and resets all states to default (zero muted and zero solo lists, all
     // volumes set to 1, start at 0 second, etc.)
@@ -477,7 +461,7 @@ currentSong = new Song(songName, context);
 
 var xhr = new XMLHttpRequest({mozSystem: true});
     // xhr.open('GET', localStorage.getItem("address")+"/"+currentSong.url, true);
-    xhr.open('GET', "http://192.168.1.125:8081/"+currentSong.url, true);
+    xhr.open('GET', "http://192.168.6.171:8081/"+currentSong.url, true);
    //xhr.open('GET', "http://localhost:8081/"+currentSong.url, true);
    
   xhr.addEventListener("progress", progressLoading(), false);
@@ -513,34 +497,7 @@ var xhr = new XMLHttpRequest({mozSystem: true});
             currentSong.addTrack(instrument);
 
             divPistes.append('<a href="#" class="list-group-item clearfix">'+ instrument.name + groupeBoutonPiste + '</a>');
-
-      //       // Render HTMl
-      //       var span = document.createElement('tr');
-      //       span.innerHTML = '<td class="trackBox" style="height : ' + SAMPLE_HEIGHT + 'px">' +
-      //           "<progress class='pisteProgress' id='progress" + trackNumber + "' value='0' max='100' style='width : " + SAMPLE_HEIGHT + "px' ></progress>" +
-      //           instrument.name + '<div style="float : right;">' +
-      //           "<button class='mute' id='mute" + trackNumber + "' onclick='muteUnmuteTrack(" + trackNumber + ");'><span class='glyphicon glyphicon-volume-up'></span></button> " +
-      //           "<button class='solo' id='solo" + trackNumber + "' onclick='soloNosoloTrack(" + trackNumber + ");'><img src='../img/earphones.png' /></button></div>" +
-      //           "<span id='volspan'><input type='range' class = 'volumeSlider custom' id='volume" + trackNumber + "' min='0' max = '100' value='100' oninput='setVolumeOfTrackDependingOnSliderValue(" + trackNumber + ");'/></span><td>";
-      // /**suppression des onCLICK et onInput INTERDIT daans application embarqué*/
-      // span.innerHTML = '<td class="trackBox" style="height : ' + SAMPLE_HEIGHT + 'px">' +
-      //           "<progress class='pisteProgress' id='progress" + trackNumber + "' value='0' max='100' style='width : " + SAMPLE_HEIGHT + "px' ></progress>" +
-      //           instrument.name + '<div style="float : right;">' +
-      //           "<button class='mute' id='mute" + trackNumber + "<span class='glyphicon glyphicon-volume-up'></span></button> " +
-      //           "<button class='solo' id='solo" + trackNumber + "<img src='../img/earphones.png' /></button></div>" +
-      //           "<span id='volspan'><input type='range' class = 'volumeSlider custom' id='volume" + trackNumber + "' min='0' max = '100' value='100'/></span><td>";
-      //       divTrack.appendChild(span);
-
     });
-
-        // Add range listeners, from range-input.js
-        //addRangeListeners();
-
-
-        // disable all mute/solo buttons
-        //$(".mute").attr("disabled", true);
-        //$(".solo").attr("disabled", true);
-
         // Loads all samples for the currentSong
         loadAllSoundSamples();
       };
@@ -585,28 +542,40 @@ function getLocalTrack(songName,callback){
       id: songName,
       instruments: [] 
   };
-
+	
   var files = navigator.getDeviceStorage("music");
-
+	
   var cursor = files.enumerate();
-
+var isLocal = false;
   cursor.onsuccess = function () {
     //alert("Got something");
     var file = this.result;
-
-    if (file != null && !isASoundFile(songName)) {
+	
+    if (file != null ) {
+	
       this.done = false;
-
-      if(file.name.indexOf("MT5/" + songName) > -1){
+	 
+      if(file.name.indexOf("MT5/" + songName) > -1 && !isASoundFile(songName)){
         var tmp = file.name.split("MT5")[1];
         var instrument = tmp.split("/")[2].match(/(.*)\.[^.]+$/, '')[1];
         track.instruments.push({
           name: instrument,
           sound: tmp.split("/")[2]
         });
-      } 
-
-    }
+      }else{
+		  console.log(songName);
+		  console.log(file.name);
+		   if(file.name===songName && isASoundFile(songName)){
+			   var tmp = file.name;
+				track.instruments.push({
+				name: tmp,
+				sound: tmp
+				});
+				isLocal=true;
+				this.done = true;
+		   }
+		}
+	}
     else {
       this.done = true;
     }
@@ -615,29 +584,33 @@ function getLocalTrack(songName,callback){
       this.continue();
     }else {
       callback(track);
-      loadAllSoundSamples();
+      loadAllSoundSamples(isLocal);
     }
   }
 }
-    function loadAllSoundSamples() {
-      
+ 
+	function loadAllSoundSamples(isLocal) {
+		btnPlay.dataset.state = "loading";
+		updateBtnPlay();
+		bufferLoader=null;
+      if(isLocal){
       bufferLoader = new BufferLoader(
+        context,
+        currentSong.getUrlsOfTracksLoc(),
+        finishedLoading
+        //drawTrack
+        );
+	  }else{
+		    bufferLoader = new BufferLoader(
         context,
         currentSong.getUrlsOfTracks(),
         finishedLoading
         //drawTrack
         );
+	  }
       bufferLoader.load();
     }
-
     function playAllTracks() {
-    // First : build the web audio graph
-    //currentSong.buildGraph();
-
-    // Read current master volume slider position and set the volume
-    //setMasterVolume();
-
-    
 
     var intDuree = Math.round(dureeTotale * 100) / 100;      
 
@@ -701,37 +674,6 @@ function getLocalTrack(songName,callback){
         }
       }, 100);
     }
-
-
-
-    
-
-    // Set each track volume depending on slider value
-    //for (i = 0; i < currentSong.getNbTracks(); i++) {
-        // set volume gain of track i the value indicated by the slider
-        //setVolumeOfTrackDependingOnSliderValue(i);
-    //}
-
-    // Adjust the volumes depending on all mute/solo states
-    //currentSong.setTrackVolumesDependingOnMuteSoloStatus();
-
-
-    // enable all mute/solo buttons
-    //$(".mute").attr("disabled", false);
-    //$(".solo").attr("disabled", false);
-
-    // Set play/stop/pause buttons' states
-    // buttonPlay.disabled = true;
-    // buttonStop.disabled = false;
-    // buttonPause.disabled = false;
-
-    // Note : we memorise the current time, context.currentTime always
-    // goes forward, it's a high precision timer
-    //lastTime = context.currentTime;
-    //console.log("PLAY "+context.currentTime);
-
-
-    //View.activeWaveTab();
   }
 
   function pauseAllTracks() {
@@ -763,30 +705,6 @@ function getLocalTrack(songName,callback){
     
     btnPlay.dataset.state = "play";
     updateBtnPlay();
-    // buttonPlay.disabled = false;
-    // buttonRecordMix.disabled = false;
-
-    // //enabling the loop buttons
-    // $('#loopBox > button').each(function (key, item) {
-    //     item.disabled = false;
-    // });
-
-    // // enable all mute/solo buttons
-    // $(".mute").attr("disabled", false);
-    // $(".solo").attr("disabled", false);
-
-    // // enable song select menu
-    // var s = document.querySelector("#songSelect");
-    // s.disabled = false;
-
-    // Set each track volume slider to max
-    // for (i = 0; i < currentSong.getNbTracks(); i++) {
-    //     // set volume gain of track i to max (1)
-    //     //currentSong.setVolumeOfTrack(1, i);
-    //     $(".volumeSlider").each(function (obj, value) {
-    //         obj.value = 100;
-    //     });
-    // }
   }
 
   function soloNosoloTrack(instrumentName) {
@@ -819,18 +737,12 @@ function getLocalTrack(songName,callback){
 
     // In all cases we remove the mute state of the curent track
     currentTrack.mute = false;
-    // $(m).removeClass("activated");
-    // Let's change the icon
-    // m.innerHTML = "<span class='glyphicon glyphicon-volume-up'></span>";
 
     // Adjust the volumes depending on all mute/solo states
     currentSong.setTrackVolumesDependingOnMuteSoloStatus();
   }
 
   function muteUnmuteTrack(instrumentName) {
-    // var m = document.querySelector("#mute" + trackNumber);
-    // var s = document.querySelector("#solo" + trackNumber);
-
     var currentTrack = "";
 
     currentSong.tracks.forEach(function(track){
@@ -838,26 +750,16 @@ function getLocalTrack(songName,callback){
         currentTrack=track;
       }
     });
-
-    //$(m).toggleClass("activated");
-
     if (!currentTrack.muted) {
         // Track was not muted, let's mute it!
         currentTrack.muted = true;
-        // let's change the button's class
-        // m.innerHTML = "<span class='glyphicon glyphicon-volume-off'></span>";
       } else {
         // track was muted, let's unmute it!
         currentTrack.muted = false;
-        // m.innerHTML = "<span class='glyphicon glyphicon-volume-up'></span>";
       }
 
     // In all cases we must put the track on "no solo" mode
     currentTrack.solo = false;
-    // $(s).removeClass("activated");
-    // Let's change the icon
-    // s.innerHTML = "<img src='../img/earphones.png' />";
-
     // adjust track volumes dependinf on all mute/solo states
     currentSong.setTrackVolumesDependingOnMuteSoloStatus();
   }
