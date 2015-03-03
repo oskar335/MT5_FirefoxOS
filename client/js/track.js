@@ -3,6 +3,8 @@ function Track(songName, instrument) {
     this.name = instrument.name;
     // url of the track in the form http://.../track/track_name
     this.url = "multitrack/" + songName + "/" + instrument.sound;
+	this.urlLoc = songName;
+
     // decoded audio buffer
     this.decodedBuffer;
     // peaks for drawing the sample

@@ -1,0 +1,55 @@
+body {
+	/*background-color: @gray-lighter;*/
+	background-color: #eee;
+	/*border:solid 1px black;
+	border-radius:10px;*/
+}
+
+h1 {
+	font-size: x-large;
+	font-weight: bold;
+}
+
+/* CSS element centre */
+/*.elementCentre {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}*/
+
+/* CSS du formulaire de connexion */
+#connect {
+    width: 140px;
+}
+
+/* CSS pour chaque division */
+div {
+	margin-top: 30px;
+	margin-bottom: 40px;
+}
+
+input {
+	margin-bottom: 10px;
+}
+
+/* CSS button formulaire */
+.buttonCentre {
+    width: 40px;
+}
+
+/* CSS lien importer */
+.lienCentre {
+    width: 115px;
+    margin-top: -25px;
+}
+
+#inputFiles {
+	margin-top: -15px;
+}
+
+/* Les divisions crees par Bootstrap Filestyle */
+#inputFiles div {
+	display:table;
+	margin-bottom: -15px;
+}
+	

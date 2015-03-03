@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+	
+		<title>Page initialisation MT5</title>
+        <meta charset="UTF-8">
+		
+		<!-- Liens vers fichiers CSS exterieurs -->
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	
+		<link rel="stylesheet" type="text/css" href="./css/page_initialisation.css">
+
+		<!-- Liens vers fichiers JS exterieurs -->
+		<script type="text/javascript" src="./js/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
+		<script src="./js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="./js/connect.js"></script>
+		<script type="text/javascript" src="./js/page_initialisation.js"></script>
+	
+	</head>
+
+	<body>
+
+		<!-- Formulaire de connexion a un serveur de recuperation -->
+		<div>
+
+			<h1 class="text-center">Bienvenue sur MT5<br/>Le lecteur multipiste</h1>
+			
+			<form id="connect" class="center-block" action="player.html" method="POST">
+
+				<label for="server">Serveur :</label><br/>
+				<input type="text" name="server" id="server" placeholder="Adresse du serveur">
+				<br/>
+
+				<label for="port">Port :</label><br/>
+				<input type="text" name="port" id="port" placeholder="Numéro du port">
+				<br/>
+
+				<input type="submit" value="GO" class="btn btn-primary center-block buttonCentre">
+			
+			</form>
+
+		</div>
+
+
+		<!-- Selectionner un fichier son -->
+		<div>
+
+			<h1 class="text-center">Ou importer depuis<br/>l'appareil :</h1>
+
+			<!--<a href="./browse.html" target="_self" class="btn btn-primary btn-lg active center-block lienCentre" role="button">Importer</a>-->
+			<div id="inputFiles" class="center-block lienCentre">
+				<input type="file" class="filestyle" data-input="false">
+			</div>
+			<input class="btn btn-primary btn-lg active center-block lienCentre" type="submit" value="Importer">
+
+		</div>
+
+	</body>
+
+</html>
