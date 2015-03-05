@@ -118,8 +118,12 @@ section[role="region"] > header:first-child button {
 }
 
 /* Modification par Azria Nouriel */
+/* Modification du visuel du menu deroulant */
 section[role="region"] > header:first-child ul li a{
-  color:black;
+  color: black;
+  font-size: medium;
+  font-weight: bold;
+  padding: 1.3rem 1.3rem 1.3rem 1.3rem;
 }
 /* /Fin modification par Azria Nouriel */
 
@@ -165,6 +169,7 @@ section[role="region"] > header:first-child .icon {
   background: transparent no-repeat center center / 3rem auto;
   font-size: 0;
   overflow: hidden;
+
 }
 
 section[role="region"] > header:first-child .icon.icon-add {
@@ -224,12 +229,15 @@ section[role="region"] > header:first-child .icon.icon-options {
 section[role="region"] > header:first-child > button,
 section[role="region"] > header:first-child > a {
   position: relative;
-  width: 5rem;
+  /*width: 5rem;*/
+  width: 6rem; /* Modification par AZRIA Nouriel */
   height: 5rem;
   background: none;
   float: left;
   overflow: visible;
   margin: 0 -5rem 0 0;
+  margin-right: -4rem; /* Ajout par AZRIA Nouriel */
+  padding-left:1rem; /* Ajout par AZRIA Nouriel */
 }
 
 section[role="region"] > header:first-child > button:after,
@@ -239,7 +247,8 @@ section[role="region"] > header:first-child > a:after {
   left: 0;
   top: 0;
   z-index: -1;
-  width: 2.6rem;
+  /*width: 2.6rem;*/
+  width: 5rem; /* Modification par AZRIA Nouriel */
   height: 5rem;
 }
 
@@ -428,5 +437,3 @@ html[dir="rtl"] .skin-organic section[role="region"] > header:first-child .icon.
 html[dir="rtl"] section[role="region"].skin-dark > header:first-child .icon.icon-back {
   background-image: url(headers/images/icons/organic/back_rtl.png);
 }
-
-
