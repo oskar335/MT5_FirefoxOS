@@ -282,7 +282,6 @@ function deleteLocalMusic(name){
       console.warn(this.error.name);
     }
     
-    loadSongListLocal();
     location.reload();
   }
 }
