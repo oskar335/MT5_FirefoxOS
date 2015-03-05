@@ -1,41 +1,58 @@
 $(document).ready(function(){
 
-  // The current song
-  var currentSong;
-  // The audio context
-  var context;
-  var lastTime = 0;
-  var dureeTotale = 0;
-  var intervalId = 0;
+/* 
+===================================
+  Déclaration des variables
+===================================
+*/
+  localStorage.setItem("address","http://192.168.1.125:8081"); //pour les tests
+  
+  var currentSong; // The current song
+  var context; // The audio context (web audio api)
+  var dureeTotale = 0; //duree totale de la musique
+  var intervalId = 0; // id du processus renvoye par la methode setInterval()
 
-  var btnPlay = document.getElementById("bplay");
-  var btnBrowse = document.getElementById("browseServer");
-  var btnBrowseLocal = document.getElementById("browseLocal");
+  var btnPlay = document.getElementById("bplay"); //bouton play du player
+  var btnBrowse = document.getElementById("browseServer"); //bouton parcourir musiques distantes 
+  var btnBrowseLocal = document.getElementById("browseLocal"); //bouton parcourir musiques locales
 
-  var addresse=localStorage.getItem("address");
+  var addresse = localStorage.getItem("address"); // Recupere l'adresse de connexion dans le localstorage
 
-  //Cache par defaut le slider boucle AB
-  $("#divSliderRange").hide();
-  $("#listePiste").hide();
-  $("#listeMusiqueServer").hide();
 
-  //Desactive par defaut le reset boucle AB
-  $("#loopReset").prop('disabled', true);
+/* 
+===================================
+  Initialisation de la page
+===================================
+*/
 
-  // Init audio context
-  context = initAudioContext();
+  
+  $("#divSliderRange").hide(); //Cache par defaut le slider boucle AB (slider range)
+  $("#listePiste").hide(); //Cache par défaut la liste des pistes d'une musiques
+  $("#listeMusiqueServer").hide(); //Cache par défaut la liste des musiques distantes
+
+  $("#loopReset").prop('disabled', true); //Desactive par defaut le reset boucle AB
+
+  context = initAudioContext(); // Init audio context
 
   loadSongListLocal(); //initialise la liste des musiques en local
-  $(btnBrowseLocal).addClass("active");
 
+  $(btnBrowseLocal).addClass("active"); //Enfonce le bouton parcourir musiques locales (puisque c'est celle qui est affichée par défaut)
+
+  //Change l'icone du bouton parcourir musiques distantes si mode hors connexion
   if(addresse == ""){
     $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-globe");
     $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-log-in");
   }
 
+/* 
+===================================
+  Méthodes : actions des boutons
+===================================
+*/
+
   //Action du bouton play
   $(btnPlay).click(function(){
-
+    //Si le bouton e
     if(this.dataset.state === "play"){
       playAllTracks();
       this.dataset.state = "pause";
@@ -43,33 +60,10 @@ $(document).ready(function(){
       pauseAllTracks();
       this.dataset.state = "play";
     }
-
     updateBtnPlay();
     
   });
 
-  //Met a jour l'image du bouton en fnt de son état
-  function updateBtnPlay() {
-    //recupere le span qui contient le glyphicon 
-    var span = $(btnPlay).find(".glyphicon");
-
-    if(btnPlay.dataset.state == "play"){
-      span.removeClass("glyphicon-pause");
-      span.removeClass("glyphicon-refresh glyphicon-refresh-animate");
-      span.addClass("glyphicon-play");
-      btnPlay.disabled = false;
-    } else if (btnPlay.dataset.state == "pause") {
-      span.removeClass("glyphicon-refresh glyphicon-refresh-animate");
-      span.removeClass("glyphicon-play");
-      span.addClass("glyphicon-pause");
-      btnPlay.disabled = false;
-    } else if (btnPlay.dataset.state == "loading") {
-      span.removeClass("glyphicon-pause");
-      span.removeClass("glyphicon-play");
-      span.addClass("glyphicon-refresh glyphicon-refresh-animate");
-      btnPlay.disabled = true;
-    }
-  }
 
   //Action du bouton de boucle (1er a gauche)
   $("#loopAB").click(function(){
@@ -77,7 +71,7 @@ $(document).ready(function(){
     $("#divSlider").toggle();
     $("#divSliderRange").toggle();
     
-    //Toggle la desactivation du bouton reset boucle AB
+    //Toggle la desactivation du bouton reset boucle AB (togggleDisable)
     $( "#loopReset" ).prop( "disabled", function( i, val ) {
       return !val;
     });
@@ -94,57 +88,57 @@ $("#loopReset").click(function(){
   updateDivSliderRange();
 });
 
-//ACtion du bouton de boucle pour revenir au debut de la chanson
+//Action du bouton de boucle pour revenir au debut de la chanson
 $("#loop").click(function(){
-  $("#slider").slider( "option", "value",0 );
-  updateDivSlider();
-  pauseAllTracks();
+  $("#slider").slider( "option", "value",0 ); //position le slider à 0
+  updateDivSlider(); //met a jour les valeurs du div (fin/debut)
+  pauseAllTracks(); //met en pause la musique
 
-  btnPlay.dataset.state = "play";
-  updateBtnPlay();
-
+  btnPlay.dataset.state = "play"; //met le bouton play en état play
+  updateBtnPlay(); //le met a jour (icone, cliquable ? )
 });
 
 //Action du bouton mode multi/monopiste
 $("#toggleMultipiste").click(function(){
   
+  //Change le texte du bouton (multipise <-> monopiste)
   $(this).text(function(i, text){
     return text === "Mode Multipiste" ? "Mode Monopiste" : "Mode Multipiste";
   });
 
+  //Si le texte est multipiste
   if ($(this).text() === "Mode Monopiste") {
-    $("#listeMusique").hide();
-    $("#listeMusiqueServer").hide();
-    showDivMultiPiste();
+    $("#listeMusique").hide(); //cache le div des musiques locales
+    $("#listeMusiqueServer").hide(); //et distantes
+    showDivMultiPiste(); //affiche le div des piste
   } else {
-    $("#listePiste").hide();
-    if($(btnBrowseLocal).hasClass("active")){
-      showDivLocalSong();
+    $("#listePiste").hide(); //Cache le div des piste
+    if($(btnBrowseLocal).hasClass("active")){ //si le bouton parcourir musiques locales est enfoncé
+      showDivLocalSong(); //affiche son div
     } else {
-      showDivServerSong();
+      showDivServerSong(); //affiche le div des musiques distantes
     }
   }
-  
 });
 
+//Action du bouton parcourir les musiques locales
 $(btnBrowseLocal).click(function(){
-  //window.location = "browse.html";
-  if(!$(this).hasClass("active")){
-    $(this).toggleClass("active");
-      $("#listeMusiqueServer").hide();
-      $("#listePiste").hide();
-      $("#toggleMultipiste").text("Mode Multipiste");
-      showDivLocalSong();
-      loadSongListLocal();
-      $(btnBrowse).removeClass("active");
+  if(!$(this).hasClass("active")){ //Si le bouton n'est pas enfoncé
+    $(this).toggleClass("active"); //met en active (enfoncé)
+    $("#listeMusiqueServer").hide(); //Cache le div des musiques distantes
+    $("#listePiste").hide(); //Cache le div des pistes
+    $("#toggleMultipiste").text("Mode Multipiste"); //met a jour le texte du bouton
+    showDivLocalSong(); //Affiche la liste des musiques locales
+    loadSongListLocal(); //Remplit la liste
+    $(btnBrowse).removeClass("active"); //désactive l'etat active du bouton parcourir musiques distantes
   }
 });
 
-
+//Action du bouton parcourir musiques distantes (fonctionnement inverse du btnBrowseLocal)
 $(btnBrowse).click(function(){
   var span = $(this).find(".glyphicon");
 
-  if(span.hasClass("glyphicon-globe")){
+  if(span.hasClass("glyphicon-globe")){ //Si l'icone du bouton est le globe (connexion OK au serveur)
     if(!$(this).hasClass("active")){
       $(this).addClass("active")
       $("#listeMusique").hide();
@@ -154,43 +148,27 @@ $(btnBrowse).click(function(){
       loadSongList();
       $("#browseLocal").removeClass("active");
     }
-  } else {
+  } else { //Sinon retour a la page de connexion
     window.location = "initialisation.html";
   }
-  
 });
 
-function showDivLocalSong(){
-  $("#listeMusique").show();
-  $("#titreListe").text("Musiques locales");
-}
 
-function showDivServerSong(){
-  $("#listeMusiqueServer").show();
-  $("#titreListe").text("Musiques distantes");
-}
-
-function showDivMultiPiste(){
-  $("#listePiste").show();
-  $("#titreListe").text("Multipiste ON");
-}
-
-$(".btn btn-sm > .glyphicon glyphicon-volume-off").click(function(){
-  $(this).toggleClass("active");
-});
-
+//Action des boutons pour couper le son d'une piste
 $("#listePiste").delegate(".volume-off","click",function(event){
-  $(this).toggleClass("active");
-  var instrument = $(this).parent()[0].previousSibling.data;
-  muteUnmuteTrack(instrument);
+  $(this).toggleClass("active"); //Enfonce le bouton
+  var instrument = $(this).parent()[0].previousSibling.data; //recupere le nom de l'instrument
+  muteUnmuteTrack(instrument); //mute la piste
 });
 
+//Action des boutons pour filtrer la piste ecoutee
 $("#listePiste").delegate(".volume-solo","click",function(event){
   $(this).toggleClass("active");
-  var instrument = $(this).parent()[0].previousSibling.data;
-  soloNosoloTrack(instrument);
+  var instrument = $(this).parent()[0].previousSibling.data; //recupere le nom de l'instrument
+  soloNosoloTrack(instrument); //appelle la methode de filtre
 });
 
+//actions des éléments de la liste de musique locales
 $("#listeMusique").delegate("a","click",function(event){
   $(this).siblings().removeClass("active");
   $(this).addClass("active");
@@ -212,6 +190,59 @@ $("#listeMusiqueServer").delegate("a","click",function(event){
     $("#loopAB").click();
   }
 });
+
+
+
+/* 
+===================================
+  Méthodes : manipulation DOM
+===================================
+*/
+
+//Met a jour l'image du bouton en fnt de son état
+function updateBtnPlay() {
+
+  //recupere le span qui contient le glyphicon 
+  var span = $(btnPlay).find(".glyphicon");
+
+  if(btnPlay.dataset.state == "play"){ //si l'état du bouton est play (l> affiché)
+    span.removeClass("glyphicon-pause"); //supprime l'icone pause
+    span.removeClass("glyphicon-refresh glyphicon-refresh-animate"); //supprime l'icone chargement
+    span.addClass("glyphicon-play");  //ajout l'icone play
+    btnPlay.disabled = false; //rend cliquable le bouton
+  } else if (btnPlay.dataset.state == "pause") { //Si etat pause
+    span.removeClass("glyphicon-refresh glyphicon-refresh-animate");
+    span.removeClass("glyphicon-play");
+    span.addClass("glyphicon-pause");
+    btnPlay.disabled = false; 
+  } else if (btnPlay.dataset.state == "loading") { //si etat chargement
+    span.removeClass("glyphicon-pause");
+    span.removeClass("glyphicon-play");
+    span.addClass("glyphicon-refresh glyphicon-refresh-animate");
+    btnPlay.disabled = true; //rend incliquable le bouton
+  }
+}
+
+//affiche le div des musiques locales
+function showDivLocalSong(){
+  $("#listeMusique").show();
+  $("#titreListe").text("Musiques locales"); //Change le texte du titre en haut
+}
+
+//affiche le div des musiques du serveur
+function showDivServerSong(){
+  $("#listeMusiqueServer").show();
+  $("#titreListe").text("Musiques distantes");
+}
+
+//affiche le div despistes de la musiques
+function showDivMultiPiste(){
+  $("#listePiste").show();
+  $("#titreListe").text("Multipiste ON");
+}
+
+
+
 
 // ******** Music slider (JQuery UI) ********
 
