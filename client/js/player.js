@@ -12,6 +12,9 @@ $(document).ready(function(){
   var btnBrowse = document.getElementById("browseServer");
   var btnBrowseLocal = document.getElementById("browseLocal");
 
+  var liste = $("#listeMusique")[0];
+  var hammertime = new Hammer(liste);
+  
   var addresse=localStorage.getItem("address");
 
   //Cache par defaut le slider boucle AB
@@ -213,6 +216,41 @@ $("#listeMusiqueServer").delegate("a","click",function(event){
   }
 });
 
+  hammertime.on('swipe', function(ev){
+    deleteLocalMusic(ev.target.firstChild.data);
+  })
+  
+  /*mc.on("swipe", function(ev){
+    console.log(this);
+    console.log($("#listeMusique"));
+    console.log($("#listeMusique > a"));
+    //deleteLocalMusic("AdmiralCrumple_KeepsFlowing");
+    //deleteLocalMusic("this.firstChild.data");
+  });*/
+  
+  /*$("#listeMusique").hammer().on("swipe", function(event){
+    console.log(event.target);
+  });*/
+  
+  /*$("#listeMusique").hammer({domEvents:true}).on("swipe", "a", function(event){
+    console.log(this);
+  });*/
+  
+function deleteLocalMusic(name){
+	
+	var sdcard = navigator.getDeviceStorage("sdcard");
+	var requestDel = sdcard.delete("MT5/"+name);
+	
+	requestDel.onsuccess = function () {	
+		console.log("deleted the file: " + "MT5/"+name);	
+	}
+	requestDel.onerror = function () {
+		console.warn(this.error.name);
+	}
+  
+  loadSongListLocal();
+}
+  
 // ******** Music slider (JQuery UI) ********
 
 //Met a jour les elements du div du slider normal
