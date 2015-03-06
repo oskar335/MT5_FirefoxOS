@@ -57,7 +57,7 @@ function deleteLocalMusic(name){
 			var requestDel = sdcard.delete("MT5/"+name);
 
 			requestDel.onsuccess = function () {	
-				//location.reload();
+				location.reload();
 				//loadSongListLocal();
 				//$("#listeMusique").load(location.href);
 				//loadSongListLocal();
