@@ -44,7 +44,7 @@ function deletedMusic(name){
 }
 
 /* Supprime la musique passée en paramètre de la carte SD : name == nomdossier */
-function deleteLocalMusic(name){
+function deleteLocalMusic(name,callback){
   
 	if((name.endsWith(".ogg")) || (name.endsWith(".mp3")) || (name.endsWith(".wav"))){
 		alert("Vous ne pouvez supprimer que des musiques MT5.");
@@ -57,12 +57,9 @@ function deleteLocalMusic(name){
 			var requestDel = sdcard.delete("MT5/"+name);
 
 			requestDel.onsuccess = function () {	
-				location.reload();
-				//loadSongListLocal();
-				//$("#listeMusique").load(location.href);
-				//loadSongListLocal();
-				//$("#listeMusique").load(location.href + " #listeMusique");
+				//location.reload();
 				console.log("deleted the file: " + "MT5/"+name);
+				callback();
 			}
 			requestDel.onerror = function () {
 				console.warn(this.error.name);
