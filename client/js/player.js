@@ -264,7 +264,9 @@ function showDivMultiPiste(){
 
 
   hammertime.on('swipe', function(ev){
-    deleteLocalMusic(ev.target.firstChild.data);
+    deleteLocalMusic(ev.target.firstChild.data,function(){
+		loadSongListLocal();
+	});
   })
   
 // ******** Music slider (JQuery UI) ********
