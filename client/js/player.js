@@ -220,25 +220,6 @@ $("#listeMusiqueServer").delegate("a","click",function(event){
     deleteLocalMusic(ev.target.firstChild.data);
   })
   
-// Supprime la musique passée en paramètre de la carte SD
-function deleteLocalMusic(name){
-  
-  if (result = window.confirm("Êtes-vous sûr de vouloir supprimer "+name+" ?")) {
-	
-    var sdcard = navigator.getDeviceStorage("sdcard");
-    var requestDel = sdcard.delete("MT5/"+name);
-
-    requestDel.onsuccess = function () {	
-      console.log("deleted the file: " + "MT5/"+name);	
-    }
-    requestDel.onerror = function () {
-      console.warn(this.error.name);
-    }
-    
-    location.reload();
-  }
-}
-  
 // ******** Music slider (JQuery UI) ********
 
 //Met a jour les elements du div du slider normal
