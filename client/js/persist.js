@@ -42,6 +42,35 @@ function deletedMusic(name){
 		console.warn(this.error.name);
 	}
 }
+
+/* Supprime la musique passée en paramètre de la carte SD : name == nomdossier */
+function deleteLocalMusic(name){
+  
+	if((name.endsWith(".ogg")) || (name.endsWith(".mp3")) || (name.endsWith(".wav"))){
+		alert("Vous ne pouvez supprimer que des musiques MT5.");
+	}
+	else{
+		if (result = window.confirm("Êtes-vous sûr de vouloir supprimer "+name+" ?")) {
+
+			var sdcard = navigator.getDeviceStorage("sdcard");
+
+			var requestDel = sdcard.delete("MT5/"+name);
+
+			requestDel.onsuccess = function () {	
+				//location.reload();
+				//loadSongListLocal();
+				//$("#listeMusique").load(location.href);
+				//loadSongListLocal();
+				//$("#listeMusique").load(location.href + " #listeMusique");
+				console.log("deleted the file: " + "MT5/"+name);
+			}
+			requestDel.onerror = function () {
+				console.warn(this.error.name);
+			}
+		}
+	}
+}
+
 /*Lecture musique: name  == MT5/nomdossier/nomdufichier */
 function readMusic(name, callback){
 	var sdcard = navigator.getDeviceStorage("music");
