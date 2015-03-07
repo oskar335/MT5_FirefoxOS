@@ -216,7 +216,7 @@ $("#listeMusiqueServer").delegate("a","click",function(event){
   }
 });
 
-  hammertime.on('swipe', function(ev){
+  hammertime.on('swipeleft', function(ev){
     deleteLocalMusic(ev.target.firstChild.data,function(){
 		loadSongListLocal();
 	});
