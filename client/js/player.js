@@ -214,7 +214,6 @@ $("#listeMusiqueServer").delegate("a","click",function(event){
 });
 
 
-
 /* 
 ===================================
   Méthodes : manipulation DOM
@@ -245,8 +244,6 @@ function updateBtnPlay() {
   }
 }
 
-
-
 //affiche le div des musiques du serveur
 function showDivServerSong(){
   $("#listeMusiqueServer").show();
@@ -263,7 +260,8 @@ function showDivMultiPiste(){
 
 
 
-  hammertime.on('swipe', function(ev){
+  hammertime.on('swipeleft', function(ev){
+
     deleteLocalMusic(ev.target.firstChild.data,function(){
 		loadSongListLocal();
 	});
