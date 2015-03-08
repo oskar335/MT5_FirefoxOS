@@ -129,3 +129,32 @@ function getFiles(dirName, callback) {
     });
 }
 
+// Accepter les requetes cross-domain
+module.exports = function() {
+
+	return function(req, res, next) {
+	
+		if (!req.get('Origin')) 
+			return next();
+			
+		res.set('Access-Control-Allow-Origin', '*');
+		res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH');
+		res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
+		
+		if ('OPTIONS' === req.method) 
+			return res.send(200);
+		next();
+	};
+
+}; 
+
+/*var allowCrossDomain = function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+	next();
+}
+
+app.use(allowCrossDomain);*/

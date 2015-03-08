@@ -81,3 +81,23 @@ $(document).ready(function() {
 	});
 
 })
+
+// --- Fonction de verification de l'accessibilite serveur distant
+// Site http://bioinfo-fr.net/ping-en-jquery
+// Ne semble pas fonctionner, peu importe l'adresse construit (avec ou sans port, avec ou sans 'http://'..) le status est toujours 'error'.
+// Peut etre un probleme de cross-domain, bien que sur le node serveur.js il est traite.. A voir pourquoi.
+//
+function checkServer(ip, port){
+ 	
+	var adresse = ip+":"+port;//"http://"+  +":"+port
+
+ 	//alert(adresse);
+    $.ajax({ 
+    	type: "HEAD",
+        url: adresse,
+        cache:false,
+        complete: function(xhr,status){
+        	alert(status);
+        }
+     });
+}        
