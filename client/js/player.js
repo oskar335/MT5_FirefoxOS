@@ -164,6 +164,23 @@ $(btnBrowse).click(function(){
   }
 });
 
+function showDivLocalSong(){
+  $("#listeMusique").show();
+  $("#mainTitle").text("MT5 - local");
+}
+
+function showDivServerSong(){
+  $("#listeMusiqueServer").show();
+  $("#mainTitle").text("MT5 - serveur");
+}
+
+function showDivMultiPiste(){
+  $("#listePiste").show();
+}
+
+$(".btn btn-sm > .glyphicon glyphicon-volume-off").click(function(){
+  $(this).toggleClass("active");
+});
 
 //Action des boutons pour couper le son d'une piste
 $("#listePiste").delegate(".volume-off","click",function(event){
