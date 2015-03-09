@@ -242,8 +242,6 @@ function showDivMultiPiste(){
 }
 
 
-
-
 // ******** Music slider (JQuery UI) ********
 
 //Met a jour les elements du div du slider normal
@@ -635,27 +633,30 @@ var isLocal = false;
   }
 }
  
-	function loadAllSoundSamples(isLocal) {
-		btnPlay.dataset.state = "loading";
-		updateBtnPlay();
-		bufferLoader=null;
-      if(isLocal){
-      bufferLoader = new BufferLoader(
-        context,
-        currentSong.getUrlsOfTracksLoc(),
-        finishedLoading
-        //drawTrack
-        );
-	  }else{
-		    bufferLoader = new BufferLoader(
-        context,
-        currentSong.getUrlsOfTracks(),
-        finishedLoading
-        //drawTrack
-        );
-	  }
-      bufferLoader.load();
-    }
+function loadAllSoundSamples(isLocal) {
+	btnPlay.dataset.state = "loading";
+	updateBtnPlay();
+
+	bufferLoader=null;
+
+  if(isLocal){
+    bufferLoader = new BufferLoader(
+      context,
+      currentSong.getUrlsOfTracksLoc(),
+      finishedLoading
+      //drawTrack
+    );
+  }else {
+	   bufferLoader = new BufferLoader(
+      context,
+      currentSong.getUrlsOfTracks(),
+      finishedLoading
+      //drawTrack
+    );
+  }
+    bufferLoader.load();
+  }
+
     function playAllTracks() {
 
     var intDuree = Math.round(dureeTotale * 100) / 100;      
