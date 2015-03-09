@@ -38,7 +38,7 @@
 				</ul>
 
 				<!-- Titre du menu -->
-				<h1>MT5</h1>
+				<h1 id="mainTitle">MT5 - local</h1>
 			</header>
 		</section>
 	</div>
@@ -46,92 +46,75 @@
 	<!-- Contenu du player -->
 	<div class="container text-center">
 
-		<div class="row">
-			<h3 id="titreListe">Musiques locales</h3>
-		</div>
-		<div id="listeMusique" class="row list-group col-xs-9 col-xs-offset-2 text-left customList wrap">		
-
-		</div>
-		<div id="listeMusiqueServer" class="row list-group col-xs-9 col-xs-offset-2 text-left customList wrap">		
-
-		</div>
-
-		<div id="listePiste" class="row list-group col-xs-9 col-xs-offset-2 text-left customList wrap">
-
-		</div>
-
-		<div class="spacer20"></div>
+		<div id="listeMusique" class="row list-group text-left customList wrap"></div>
+		<div id="listeMusiqueServer" class="row list-group text-left customList wrap"></div>
+		<div id="listePiste" class="row list-group text-left customList wrap"></div>
 
 		<div class="row">	
 			<div class="btn-group btn-group-lg" role="group" id="loopBox">
-
-
 				<button class="btn btn-default" id="loopAB">
 					<span class="glyphicon glyphicon-retweet"></span> 
 				</button>
 				
 				<button id="loopReset" type="button" class="btn btn-default">Reset</button>
 
-			<button id="loop" type="button" class="btn btn-default">
-				<span class="glyphicon glyphicon-repeat"></span>
-			</button>
+				<button id="loop" type="button" class="btn btn-default">
+					<span class="glyphicon glyphicon-repeat"></span>
+				</button>			
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="btn-group btn-group-lg" role="group">
+
+				<button class="btn btn-default" id="saveMix">
+					<span class="glyphicon glyphicon-save-file"></span> 
+				</button>
+
+				<button class="btn btn-default " id="bplay" type="button" data-state="play">
+					<span class="glyphicon glyphicon-play"></span> 
+				</button>
+				<button class="btn btn-default" id="browseLocal">
+					<span class="glyphicon glyphicon-folder-open"></span> 
+				</button>
+				<button class="btn btn-default" data-state="local" id="browseServer">
+					<span class="glyphicon glyphicon-globe"></span> 
+				</button>
+			</div>
+		</div>
+
+		<div class="spacer20"></div>
+
+		<div id="divSlider" class="row">
 			
+			<div class="col-xs-3" id="beginTime"></div>
+
+			<div class="col-xs-6">
+				<div id="slider"></div>
+			</div>
+			
+			<div class="col-xs-3" id="endTime"></div>
 		</div>
-	</div>
 
-	<div class="spacer20"></div>
+		<div id="divSliderRange" class="row">
+			
+			<div class="col-xs-3" id="loopA"></div>
 
-	<div class="row">
-		<div class="btn-group btn-group-lg" role="group">
-
-			<button class="btn btn-default" id="saveMix">
-				<span class="glyphicon glyphicon-save-file"></span> 
-			</button>
-
-			<button class="btn btn-default " id="bplay" type="button" data-state="play">
-				<span class="glyphicon glyphicon-play"></span> 
-			</button>
-			<button class="btn btn-default" id="browseLocal">
-				<span class="glyphicon glyphicon-folder-open"></span> 
-			</button>
-			<button class="btn btn-default" data-state="local" id="browseServer">
-				<span class="glyphicon glyphicon-globe"></span> 
-			</button>
+			<div class="col-xs-6">
+				<div id="slider-range"></div>
+			</div>
+			
+			<div class="col-xs-3" id="loopB"></div>
 		</div>
+
+		<div class="row text-center">
+			<h4 id="titleCurrentSong">Aucune musique sélectionnée</h4>
+		</div>	
+
+		<div class="row">
+			<button class="btn btn-default col-xs-8 col-xs-offset-2" id="toggleMultipiste" type="button">Mode Multipiste</button>
+		</div>	
 	</div>
-
-	<div class="spacer20"></div>
-
-	<div id="divSlider" class="row">
-		
-		<div class="col-xs-3" id="beginTime"></div>
-
-		<div class="col-xs-6">
-			<div id="slider"></div>
-		</div>
-		
-		<div class="col-xs-3" id="endTime"></div>
-	</div>
-
-	<div id="divSliderRange" class="row">
-		
-		<div class="col-xs-3" id="loopA"></div>
-
-		<div class="col-xs-6">
-			<div id="slider-range"></div>
-		</div>
-		
-		<div class="col-xs-3" id="loopB"></div>
-	</div>
-
-	<div class="row text-center">
-		<h4 id="titleCurrentSong" >Aucune musique sélectionnée</h4>
-	</div>	
-
-	<div class="row">
-		<button class="btn btn-default col-xs-8 col-xs-offset-2" id="toggleMultipiste" type="button">Mode Multipiste</button>
-	</div>	
-</div>
 
 </body>
 

@@ -162,17 +162,16 @@ $(btnBrowse).click(function(){
 
 function showDivLocalSong(){
   $("#listeMusique").show();
-  $("#titreListe").text("Musiques locales");
+  $("#mainTitle").text("MT5 - local");
 }
 
 function showDivServerSong(){
   $("#listeMusiqueServer").show();
-  $("#titreListe").text("Musiques distantes");
+  $("#mainTitle").text("MT5 - serveur");
 }
 
 function showDivMultiPiste(){
   $("#listePiste").show();
-  $("#titreListe").text("Multipiste ON");
 }
 
 $(".btn btn-sm > .glyphicon glyphicon-volume-off").click(function(){
