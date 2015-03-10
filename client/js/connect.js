@@ -18,13 +18,13 @@ $(document).ready(function() {
 	// Traiter l'evenement de la connexion (modifie par Nouriel, traitement du button vis a vis de l'etat du reseau)
 	//
 	$("#connect").click(function(){
-
+		
 		var valide;
 
 		// Accepter s'il y a une connexion, refuser sinon
 		if (navigator.onLine) {
 			var server = $("#server").val();
-			if(server != null && (server == "localhost" || server.match(/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/))){
+			if(server != null ){
 				valide = true;
 			}
 			else{
@@ -32,7 +32,7 @@ $(document).ready(function() {
 			}
 			
 			var port = $("#port").val();
-			if(!(port !=null || port.match(/\d{2,4}/))){
+			if(!(port !=null && port.match(/\d{2,5}/))){
 				alert("Port non valide");
 				valide = false;
 			}
@@ -42,21 +42,30 @@ $(document).ready(function() {
 			valide = false;
 			alert("Pas de connexion possible");
 		}
-
+		
 		if(valide){
-			var address= "http://"+server+":"+port;
-			localStorage.setItem('address', address);
-			
-			 
-			 var span = $(btnBrowse).find(".glyphicon");
-			span.addClass("glyphicon-globe");
-			span.removeClass("glyphicon-log-in");
-			$("#modal-server").modal('hide');
+			var addresse= "http://"+server+":"+port;
+			if(valide){
+				$("#connect").prop("disabled",true);
+				checkServer(addresse,function(e){
+					if(!e){
+						valide=false;
+						alert("Serveur MT5 indisponible ou incorrect");
+						$("#connect").prop("disabled",false);
 
-		}else{
-			
+					}else{
+						localStorage.setItem('address', addresse);
+						var span = $(btnBrowse).find(".glyphicon");
+						span.addClass("glyphicon-globe");
+						span.removeClass("glyphicon-log-in");
+						$("#modal-server").modal('hide');
+						$("#connect").prop("disabled",false);
+
+						
+					}
+				});
+			}
 		}
-
 	});
 
 	// Traiter l'evenement du click du mode hors ligne
@@ -98,24 +107,27 @@ $(document).ready(function() {
 		$("#port").prop('disabled', false);
 	});
 
-})
+});
 
 // --- Fonction de verification de l'accessibilite serveur distant
 // Site http://bioinfo-fr.net/ping-en-jquery
 // Ne semble pas fonctionner, peu importe l'adresse construit (avec ou sans port, avec ou sans 'http://'..) le status est toujours 'error'.
 // Peut etre un probleme de cross-domain, bien que sur le node serveur.js il est traite.. A voir pourquoi.
 //
-function checkServer(ip, port){
- 	
-	var adresse = ip+":"+port;//"http://"+  +":"+port
+function checkServer(addresse,callback){
+	
+	var xhr = new XMLHttpRequest({mozSystem: true}); 
 
- 	//alert(adresse);
-    $.ajax({ 
-    	type: "HEAD",
-        url: adresse,
-        cache:false,
-        complete: function(xhr,status){
-        	alert(status);
-        }
-     });
+    xhr.open('GET', addresse+"/track", true);
+
+    // Menu for song selection
+
+	xhr.onload = function (e) {
+		callback(true);
+	};
+	xhr.onerror = function () {
+		callback(false);
+	};
+
+xhr.send();
 }        
