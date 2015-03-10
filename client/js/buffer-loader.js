@@ -25,7 +25,9 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 		request.responseType = "arraybuffer"; 
 		request.onload = function () {
 			var file = request.response;
-			saveMusic(urlData,file);
+			if(localStorage.getItem("cache_record") == "true"){
+				saveMusic(urlData,file);
+			}
 			// Asynchronously decode the audio file data in request.response
 			loader.context.decodeAudioData(
 			request.response,function(buffer){

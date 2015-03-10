@@ -5,7 +5,7 @@ $(document).ready(function(){
   Déclaration des variables
 ===================================
 */
-  localStorage.setItem("address","http://192.168.1.125:8081"); //pour les tests
+  //localStorage.setItem("address","http://192.168.6.171:8081"); //pour les tests
   
   var currentSong; // The current song
   var context; // The audio context (web audio api)
@@ -44,6 +44,17 @@ $(document).ready(function(){
     $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-log-in");
   }
 
+  if(localStorage.getItem("cache_record") == null){
+	  localStorage.setItem("cache_record",false);
+  }
+	if(localStorage.getItem("cache_record") == "true"){
+		$("[name='switch-cache']").bootstrapSwitch('state',true);
+	}else{
+		$("[name='switch-cache']").bootstrapSwitch('state',false);
+
+	}
+
+  
 /* 
 ===================================
   Méthodes : actions des boutons
@@ -804,18 +815,23 @@ var isLocal = false;
     currentSong.setTrackVolumesDependingOnMuteSoloStatus();
   }
 //###MENU###
+$("[name='switch-cache']").bootstrapSwitch('size', 'mini');
 
-function centerModal() {
-    $(this).css('display', 'block');
-    var $dialog = $(this).find(".modal-dialog");
-    var offset = ($(window).height() - $dialog.height()) / 2;
-    // Center modal vertically in window
-    $dialog.css("margin-top", offset);
-}
 
-$('.modal').on('show.bs.modal', centerModal);
-$(window).on("resize", function () {
-    $('.modal:visible').each(centerModal);
+		
+	$("[href='#modal-record']").click(function(){
+	if(localStorage.getItem("cache_record") == "true"){
+		$("[name='switch-cache']").bootstrapSwitch('state',true);
+	}else{
+		$("[name='switch-cache']").bootstrapSwitch('state',false);
+
+	}
+	})
+$("#confirm-record").click(function(){
+	
+	localStorage.setItem('cache_record', $("[name='switch-cache']").bootstrapSwitch('state'));
+	$('#modal-record').modal('hide');
+
 });
 });
 
