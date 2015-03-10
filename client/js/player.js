@@ -242,6 +242,8 @@ function showDivMultiPiste(){
 }
 
 
+
+
 // ******** Music slider (JQuery UI) ********
 
 //Met a jour les elements du div du slider normal
@@ -274,15 +276,16 @@ $("#slider").slider({
     updateDivSlider();
   },
   slide: function(e,ui){
+    //Permet d'avoir la bulle (tooltip) au dessus du curseur lorsqu'il est en mouvement
     $('#slider > .ui-slider-handle:first').html('<div class="tooltip top slider-tip"><div class="tooltip-arrow"></div><div class="tooltip-inner">' +intToMinutes(ui.value) + '</div></div>');
     updateDivSlider();
   },
   //Quand on lache le slider
   stop: function(e, ui){
-    $('#slider > .ui-slider-handle').html("");
-    if(btnPlay.dataset.state === "pause"){
+    $('#slider > .ui-slider-handle').html(""); //Enleve la bulle/tooltip
+    if(btnPlay.dataset.state === "pause"){ //Si la piste est en cours de lecture
       pauseAllTracks();
-      playAllTracks(ui.value);
+      playAllTracks(ui.value); 
     }
     updateDivSlider();
   },
@@ -311,16 +314,16 @@ $("#slider-range").slider({
   min: 0,
   max: dureeTotale,
   values: [dureeTotale/5 ,dureeTotale/3],
+
+  create: function(e,ui){
+    $("#loopA").text("Début : " + intToMinutes($("#slider-range").slider( "option", "values" )[ 0 ]));
+    $("#loopB").text("Fin : " + intToMinutes($("#slider-range").slider( "option", "values" )[ 1 ]));
+  },
   slide: function(e, ui){
     updateDivSliderRange();
     pauseAllTracks();
     btnPlay.dataset.state = "play";
     updateBtnPlay();
-
-  },
-  create: function(e,ui){
-    $("#loopA").text("Début : " + intToMinutes($("#slider-range").slider( "option", "values" )[ 0 ]));
-    $("#loopB").text("Fin : " + intToMinutes($("#slider-range").slider( "option", "values" )[ 1 ]));
   },
   stop: function(e, ui){
     $('#slider-range > .ui-slider-handle').html("");
@@ -348,6 +351,7 @@ $("#divSliderRange").attr('unselectable','on')
 
 // ******** Fin slider range ********
 };
+
 // ******** Music slider range avec deux positions (JQuery UI) ********
 
 //Met a jour les elements du div du slider multi curseur
@@ -358,8 +362,6 @@ function updateDivSliderRange(){
   $("#loopA").text("Début : " + intToMinutes(value[ 0 ]));
   $("#loopB").text("Fin : " + intToMinutes(value[ 1 ]));
 }
-
-
 
 //Convertit un nombre de secondes en mm:ss
 function intToMinutes(secs){
@@ -402,10 +404,9 @@ function initAudioContext() {
 
 // ######### SONGS
 function loadSongList() {
-  var xhr = new XMLHttpRequest({mozSystem: true});
+  var xhr = new XMLHttpRequest({mozSystem: true}); 
 
     xhr.open('GET', addresse+"/track", true);
-    //xhr.open('GET', "http://192.168.1.121:8081/track", true);
 
     // Menu for song selection
     var s = $("#listeMusiqueServer");
@@ -416,7 +417,7 @@ xhr.onload = function (e) {
   songList.forEach(function (songName) {
     console.log(songName);
     if(songName.indexOf(".") != 0) //évite les fichiers/dossiers tq '.', '..', '.DS_Store' etc
-      if (currentSong && songName == currentSong.name)
+      if (currentSong && songName == currentSong.name) 
         s.append('<a href="#" class="list-group-item clearfix active">' + songName + '</a>');
       else
         s.append('<a href="#" class="list-group-item clearfix">' + songName + '</a>');
@@ -425,17 +426,7 @@ xhr.onload = function (e) {
 xhr.send();
 }
 
-function isASoundFile(fileName) {
-    if(endsWith(fileName, ".mp3")) return true;
-    if(endsWith(fileName, ".ogg")) return true;
-    if(endsWith(fileName, ".wav")) return true;
-    return false;
-}
-
-function endsWith(str, suffix) {
-    return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
-
+//Permet de charger la liste des musiques présentes en local (MT5 compris)
 function loadSongListLocal(){
   
   //Clear up the list first
@@ -449,8 +440,8 @@ function loadSongListLocal(){
   var divListeMusique = $("#listeMusique");
   divListeMusique.empty(); //vide la liste
 
+
   cursor.onsuccess = function () {
-    //alert("Got something");
     var file = this.result;
 
     if (file != null) {
@@ -465,8 +456,6 @@ function loadSongListLocal(){
         //musiques du telephone
         tabSetMusique.add(file.name);
       }
-
-
     }
     else {
       this.done = true;
@@ -487,12 +476,25 @@ function loadSongListLocal(){
       //liste de musiques en local (dossier music)
       tabSetMusique.forEach(function(value) {
          console.log(value);
-		 if(isASoundFile(value))
-			divListeMusique.append('<a href="#" class="list-group-item clearfix">' + value + '</a>');
+     if(isASoundFile(value))
+      divListeMusique.append('<a href="#" class="list-group-item clearfix">' + value + '</a>');
      });
 
     }
   }
+}
+
+
+//Permet de savoir si un fichier donné en entrée est un fichier audio ou non (grâce a l'extension)
+function isASoundFile(fileName) {
+    if(endsWith(fileName, ".mp3")) return true;
+    if(endsWith(fileName, ".ogg")) return true;
+    if(endsWith(fileName, ".wav")) return true;
+    return false;
+}
+
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
 
@@ -516,38 +518,39 @@ var xhr = new XMLHttpRequest({mozSystem: true});
     updateBtnPlay();
    }
 
-   function loadingSong(e) {
-    
-          // get a JSON description of the song
-          var song = JSON.parse(this.response);
-        // resize canvas depending on number of samples
-        //resizeSampleCanvas(song.instruments.length);
 
-        var divPistes = $("#listePiste");
-        divPistes.empty();
-        var groupeBoutonPiste = '<span class="pull-right">' + 
-        '<button class="btn btn-sm volume-off">' +
-        '<span class="glyphicon glyphicon-volume-off"></span>'+
-        '</button> '+ 
-        '<button class="btn btn-sm volume-solo">' +
-        '<span class="glyphicon glyphicon-headphones"></span>'+
-        '</button>'+
-        '</span>';
+    function loadingSong(e) {
+      
+      // get a JSON description of the song
+      var song = JSON.parse(this.response);
+
+      var divPistes = $("#listePiste");
+      divPistes.empty();
+      var groupeBoutonPiste = '<span class="pull-right">' + 
+      '<button class="btn btn-sm volume-off">' +
+      '<span class="glyphicon glyphicon-volume-off"></span>'+
+      '</button> '+ 
+      '<button class="btn btn-sm volume-solo">' +
+      '<span class="glyphicon glyphicon-headphones"></span>'+
+      '</button>'+
+      '</span>';
 
 
-        // for eah instrument/track in the song
-        song.instruments.forEach(function (instrument, trackNumber) {
-            // Let's add a new track to the current song for this instrument
-            currentSong.addTrack(instrument);
+      // for eah instrument/track in the song
+      song.instruments.forEach(function (instrument, trackNumber) {
+        // Let's add a new track to the current song for this instrument
+        currentSong.addTrack(instrument);
 
-            divPistes.append('<a href="#" class="list-group-item clearfix">'+ instrument.name + groupeBoutonPiste + '</a>');
-    });
-        // Loads all samples for the currentSong
-        loadAllSoundSamples();
-      };
-      xhr.send();
-    }
+        divPistes.append('<a href="#" class="list-group-item clearfix">'+ instrument.name + groupeBoutonPiste + '</a>');
+      });
 
+      // Loads all samples for the currentSong
+      loadAllSoundSamples();
+    };
+  xhr.send();
+}
+
+//Permet de charger une musique en local (MT5 ou autre)
 function loadLocalSong(songName){
 
   currentSong = new Song(songName, context);
@@ -592,7 +595,7 @@ function getLocalTrack(songName,callback){
   var cursor = files.enumerate();
 var isLocal = false;
   cursor.onsuccess = function () {
-    //alert("Got something");
+
     var file = this.result;
 	
     if (file != null ) {
@@ -633,29 +636,28 @@ var isLocal = false;
   }
 }
  
-function loadAllSoundSamples(isLocal) {
-	btnPlay.dataset.state = "loading";
-	updateBtnPlay();
+	function loadAllSoundSamples(isLocal) {
+		btnPlay.dataset.state = "loading";
+		updateBtnPlay();
+		bufferLoader=null;
 
-	bufferLoader=null;
-
-  if(isLocal){
-    bufferLoader = new BufferLoader(
-      context,
-      currentSong.getUrlsOfTracksLoc(),
-      finishedLoading
-      //drawTrack
-    );
-  }else {
-	   bufferLoader = new BufferLoader(
-      context,
-      currentSong.getUrlsOfTracks(),
-      finishedLoading
-      //drawTrack
-    );
-  }
-    bufferLoader.load();
-  }
+      if(isLocal){
+      bufferLoader = new BufferLoader(
+        context,
+        currentSong.getUrlsOfTracksLoc(),
+        finishedLoading
+        //drawTrack
+        );
+	  }else{
+		    bufferLoader = new BufferLoader(
+        context,
+        currentSong.getUrlsOfTracks(),
+        finishedLoading
+        //drawTrack
+        );
+	  }
+      bufferLoader.load();
+    }
 
     function playAllTracks() {
 
@@ -667,7 +669,7 @@ function loadAllSoundSamples(isLocal) {
         $("#slider").slider("option","value",0);
       }
 
-      
+      //Permet de faire bouger le slider toutes les 100 ms
       intervalId = setInterval(function(){
 
         if(btnPlay.dataset.state === "pause"){
@@ -679,8 +681,9 @@ function loadAllSoundSamples(isLocal) {
             updateDivSlider();
           } 
 
+          //Si le slider atteint la fin de la piste
           if(val >= intDuree) {
-            window.clearInterval(intervalId);
+            window.clearInterval(intervalId); //Arrete le processus setInterval
             btnPlay.dataset.state = "play";
             $(btnPlay).find(".glyphicon").toggleClass("glyphicon-pause");
             $(btnPlay).find(".glyphicon").toggleClass("glyphicon-play");
@@ -692,7 +695,7 @@ function loadAllSoundSamples(isLocal) {
       }, 100);
 
 
-      // Starts playing
+      // Starts playing au temps précisé par la valeur du slider
       currentSong.play($("#slider").slider("option","value"));  
 
     } else if ($("#divSliderRange").css("display") == "block"){
@@ -730,9 +733,6 @@ function loadAllSoundSamples(isLocal) {
     if(intervalId != 0 ){
       window.clearInterval(intervalId);
     }
-
-    // currentSong.elapsedTimeSinceStart  = context.currentTime;
-    // lastTime = context.currentTime;
   }
 
   function finishedLoading(bufferList) {
@@ -754,9 +754,8 @@ function loadAllSoundSamples(isLocal) {
     updateBtnPlay();
   }
 
+  //Permet de filtrer le son sur un des instruments de la musique
   function soloNosoloTrack(instrumentName) {
-    // var s = document.querySelector("#solo" + trackNumber);
-    // var m = document.querySelector("#mute" + trackNumber);
 
     var currentTrack = "";
 
@@ -766,20 +765,13 @@ function loadAllSoundSamples(isLocal) {
       }
     });
 
-
-    // $(s).toggleClass("activated");
-
     // Is the current track in solo mode ?
     if (!currentTrack.solo) {
         // we were not in solo mode, let's go in solo mode
         currentTrack.solo = true;
-        // Let's change the icon
-        // s.innerHTML = "<img src='../img/noearphones.png' />";
       } else {
         // we were in solo mode, let's go to the "no solo" mode
         currentTrack.solo = false;
-        // Let's change the icon
-        // s.innerHTML = "<img src='../img/earphones.png' />";
       }
 
     // In all cases we remove the mute state of the curent track
@@ -789,6 +781,7 @@ function loadAllSoundSamples(isLocal) {
     currentSong.setTrackVolumesDependingOnMuteSoloStatus();
   }
 
+  //Permet de mettre en sourdine une piste/un instrument de la musique
   function muteUnmuteTrack(instrumentName) {
     var currentTrack = "";
 

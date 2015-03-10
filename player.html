@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+
+	<title>MT5, the HTML5 multitrack player</title>
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="css/util.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.theme.css">
+	<link rel="stylesheet" type="text/css" href="css/style2.css" />
+
+	<link rel="stylesheet" type="text/css" href="css/headers.css" />
+</head>
+
+<body>
+
+	<!-- Menu de l'application -->
+	<div class="inner supported-action">
+		<section role="region" class="skin-dark">
+			<header>
+
+				<!-- Lien pour le deroulement du menu -->
+				<!-- <a href="#" id="menu1" data-toggle="dropdown"><span class="icon icon-menu">Menu</span></a>-->
+				<button type="button" id="menu1" data-toggle="dropdown"><span class="icon icon-menu">Menu</span></button>
+
+				<!-- Menu deroulant -->
+				<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Paramètre d'enregistrement</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Paramètre de connexion</a></li>
+					<li role="presentation" class="divider"></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">A propos</a></li>
+				</ul>
+
+				<!-- Titre du menu -->
+				<h1>MT5</h1>
+			</header>
+		</section>
+	</div>
+
+	<!-- Contenu du player -->
+	<div class="container text-center">
+
+		<div class="row">
+			<h3 id="titreListe">Musiques locales</h3>
+		</div>
+		<div id="listeMusique" class="row list-group col-xs-9 col-xs-offset-2 text-left customList wrap">		
+
+		</div>
+		<div id="listeMusiqueServer" class="row list-group col-xs-9 col-xs-offset-2 text-left customList wrap">		
+
+		</div>
+
+		<div id="listePiste" class="row list-group col-xs-9 col-xs-offset-2 text-left customList wrap">
+
+		</div>
+
+		<div class="spacer20"></div>
+
+		<div class="row">	
+			<div class="btn-group btn-group-lg" role="group" id="loopBox">
+
+
+				<button class="btn btn-default" id="loopAB">
+					<span class="glyphicon glyphicon-retweet"></span> 
+				</button>
+				
+				<button id="loopReset" type="button" class="btn btn-default">Reset</button>
+
+			<button id="loop" type="button" class="btn btn-default">
+				<span class="glyphicon glyphicon-repeat"></span>
+			</button>
+			
+		</div>
+	</div>
+
+	<div class="spacer20"></div>
+
+	<div class="row">
+		<div class="btn-group btn-group-lg" role="group">
+
+			<button class="btn btn-default" id="saveMix">
+				<span class="glyphicon glyphicon-save-file"></span> 
+			</button>
+
+			<button class="btn btn-default " id="bplay" type="button" data-state="play">
+				<span class="glyphicon glyphicon-play"></span> 
+			</button>
+			<button class="btn btn-default" id="browseLocal">
+				<span class="glyphicon glyphicon-folder-open"></span> 
+			</button>
+			<button class="btn btn-default" data-state="local" id="browseServer">
+				<span class="glyphicon glyphicon-globe"></span> 
+			</button>
+		</div>
+	</div>
+
+	<div class="spacer20"></div>
+
+	<div id="divSlider" class="row">
+		
+		<div class="col-xs-3" id="beginTime"></div>
+
+		<div class="col-xs-6">
+			<div id="slider"></div>
+		</div>
+		
+		<div class="col-xs-3" id="endTime"></div>
+	</div>
+
+	<div id="divSliderRange" class="row">
+		
+		<div class="col-xs-3" id="loopA"></div>
+
+		<div class="col-xs-6">
+			<div id="slider-range"></div>
+		</div>
+		
+		<div class="col-xs-3" id="loopB"></div>
+	</div>
+
+	<div class="row text-center">
+		<h4 id="titleCurrentSong" >Aucune musique sélectionnée</h4>
+	</div>	
+
+	<div class="row">
+		<button class="btn btn-default col-xs-8 col-xs-offset-2" id="toggleMultipiste" type="button">Mode Multipiste</button>
+	</div>	
+</div>
+
+</body>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/jquery.ui.touch.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/persist.js"></script>
+<script src="js/recorderjs/recorder.js"></script>
+<script src="js/buffer-loader.js"></script>
+<script src="js/track.js"></script>
+<script src="js/song.js"></script>
+<script src="js/player.js"></script>
+
+<!-- <script src="js/view.js"></script>
+<script src="js/waveformDrawer.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/jquery.knob.js"></script>
+<script src="js/knob.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/canvasArrows.js"></script> 
+<script src="js/range-touch.js"></script> 
+
+<script src="js/BufferLoader.js"></script> 
+<script src="js/WebAudio.js"></script> 
+<script src="js/AudioContextMonkeyPatch.js"></script> -->
+
+
+</html>
