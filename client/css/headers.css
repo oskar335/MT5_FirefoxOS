@@ -437,3 +437,17 @@ html[dir="rtl"] .skin-organic section[role="region"] > header:first-child .icon.
 html[dir="rtl"] section[role="region"].skin-dark > header:first-child .icon.icon-back {
   background-image: url(headers/images/icons/organic/back_rtl.png);
 }
+
+/* ----------------------------------
+ * HEADERS: custom
+ * ---------------------------------- */
+
+ nav#topBar {
+  top: 0;
+  position: fixed;
+  width: 100%;
+ }
+
+ nav#topBar + div.container {
+  margin-top: 5rem;
+ }
