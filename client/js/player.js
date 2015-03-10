@@ -18,7 +18,6 @@ $(document).ready(function(){
 
  localStorage.getItem("address"); // Recupere l'adresse de connexion dans le localstorage
 
-
   var liste = $("#listeMusique")[0];
   var hammertime = new Hammer(liste);
   
@@ -256,12 +255,7 @@ function showDivMultiPiste(){
   $("#titreListe").text("Multipiste ON");
 }
 
-
-
-
-
   hammertime.on('swipeleft', function(ev){
-
     deleteLocalMusic(ev.target.firstChild.data,function(){
 		loadSongListLocal();
 	});
