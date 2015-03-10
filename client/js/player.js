@@ -59,7 +59,7 @@ $(document).ready(function(){
 	}
 
 	//TODO rechercher l'adresse du serveur par défaut
-	if(localStorage.getItem("address") == null){
+	if(localStorage.getItem("address") == null || localStorage.getItem("address") == ""){
 			  localStorage.setItem("address","http://mt5demo.gexsoft.com:80");
 	}
 	$("#server").val(localStorage.getItem("address").replace("http://","").split(":")[0]);
@@ -146,11 +146,12 @@ $("#toggleMultipiste").click(function(){
 
 //Action du bouton parcourir les musiques locales
 $(btnBrowseLocal).click(function(){
+	var span ="<span class=\"glyphicon glyphicon-tasks\"></span>";
   if(!$(this).hasClass("active")){ //Si le bouton n'est pas enfoncé
     $(this).toggleClass("active"); //met en active (enfoncé)
     $("#listeMusiqueServer").hide(); //Cache le div des musiques distantes
     $("#listePiste").hide(); //Cache le div des pistes
-    $("#toggleMultipiste").text("Mode Multipiste"); //met a jour le texte du bouton
+    $("#toggleMultipiste").html(span+"Mode Multipiste"); //met a jour le texte du bouton
     showDivLocalSong(); //Affiche la liste des musiques locales
     loadSongListLocal(); //Remplit la liste
     $(btnBrowse).removeClass("active"); //désactive l'etat active du bouton parcourir musiques distantes
@@ -162,11 +163,13 @@ $(btnBrowse).click(function(){
   var span = $(this).find(".glyphicon");
 
   if(span.hasClass("glyphicon-globe")){ //Si l'icone du bouton est le globe (connexion OK au serveur)
+	 var span2 ="<span class=\"glyphicon glyphicon-tasks\"></span>";
+
     if(!$(this).hasClass("active")){
       $(this).addClass("active")
       $("#listeMusique").hide();
       $("#listePiste").hide();
-      $("#toggleMultipiste").text("Mode Multipiste");
+      $("#toggleMultipiste").html(span2+"Mode Multipiste");
       showDivServerSong();
       loadSongList();
       $("#browseLocal").removeClass("active");
