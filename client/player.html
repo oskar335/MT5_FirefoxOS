@@ -34,7 +34,7 @@
 				<!-- Menu deroulant -->
 				<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 					<li role="presentation"><a role="menuitem" tabindex="-1" data-toggle="modal" href="#modal-record">Paramètre d'enregistrement</a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Paramètre de connexion</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" data-toggle="modal" href="#modal-server">Paramètre de connexion</a></li>
 					<li role="presentation" class="divider"></li>
 					<li role="presentation"><a role="menuitem" tabindex="-1" href="#">A propos</a></li>
 				</ul>
@@ -56,6 +56,34 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
 						<button id = "confirm-record"type="button" class="btn btn-primary">Confirmer</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="modal-server" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Paramètre de connexion</h4>
+					</div>
+					<div class="modal-body">
+						<form class="text-center"  role="form" action="#" method="POST">
+							<div class="form-group">
+								<label for="server">Serveur :</label>
+								<input type="text" class="form-control" id="server" placeholder="Adresse">
+							</div>
+							<div class="form-group">
+								<label for="port">Port :</label>
+								<input type="number" class="form-control" id="port" placeholder="Numéro du port">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<div class="text-center">
+							<button class="btn btn-danger" id="modeHorsConnexion" type="button">Déconnexion</button>
+							<button id ="connect" type="button" class="btn btn-primary">Connexion</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -152,7 +180,7 @@
 	</div>	
 </div>
 
-</body>
+
 
 
 <script src="js/jquery.min.js"></script>
@@ -167,7 +195,10 @@
 <script src="js/track.js"></script>
 <script src="js/song.js"></script>
 <script src="js/player.js"></script>
+<script src="js/connect.js"></script>
 
+
+</body>
 <!-- <script src="js/view.js"></script>
 <script src="js/waveformDrawer.js"></script>
 <script src="js/sound.js"></script>

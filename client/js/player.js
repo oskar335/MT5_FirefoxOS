@@ -16,7 +16,7 @@ $(document).ready(function(){
   var btnBrowse = document.getElementById("browseServer"); //bouton parcourir musiques distantes 
   var btnBrowseLocal = document.getElementById("browseLocal"); //bouton parcourir musiques locales
 
-  var addresse = localStorage.getItem("address"); // Recupere l'adresse de connexion dans le localstorage
+ localStorage.getItem("address"); // Recupere l'adresse de connexion dans le localstorage
 
 
 /* 
@@ -39,7 +39,7 @@ $(document).ready(function(){
   $(btnBrowseLocal).addClass("active"); //Enfonce le bouton parcourir musiques locales (puisque c'est celle qui est affichée par défaut)
 
   //Change l'icone du bouton parcourir musiques distantes si mode hors connexion
-  if(addresse == ""){
+  if(localStorage.getItem("address") == ""){
     $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-globe");
     $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-log-in");
   }
@@ -54,7 +54,13 @@ $(document).ready(function(){
 
 	}
 
-  
+	//TODO rechercher l'adresse du serveur par défaut
+	if(localStorage.getItem("address") == null){
+			  localStorage.setItem("address","http://mt5demo.gexsoft.com:8081");
+	}
+	$("#server").val(localStorage.getItem("address").replace("http://","").split(":")[0]);
+  	$("#port").val(localStorage.getItem("address").replace("http://","").split(":")[1]);
+
 /* 
 ===================================
   Méthodes : actions des boutons
@@ -160,7 +166,7 @@ $(btnBrowse).click(function(){
       $("#browseLocal").removeClass("active");
     }
   } else { //Sinon retour a la page de connexion
-    window.location = "initialisation.html";
+    $("#modal-server").modal('show');
   }
 });
 
@@ -234,11 +240,7 @@ function updateBtnPlay() {
   }
 }
 
-//affiche le div des musiques locales
-function showDivLocalSong(){
-  $("#listeMusique").show();
-  $("#titreListe").text("Musiques locales"); //Change le texte du titre en haut
-}
+
 
 //affiche le div des musiques du serveur
 function showDivServerSong(){
@@ -417,7 +419,7 @@ function initAudioContext() {
 function loadSongList() {
   var xhr = new XMLHttpRequest({mozSystem: true}); 
 
-    xhr.open('GET', addresse+"/track", true);
+    xhr.open('GET', localStorage.getItem("address")+"/track", true);
 
     // Menu for song selection
     var s = $("#listeMusiqueServer");
@@ -519,7 +521,7 @@ currentSong = new Song(songName, context);
 
 
 var xhr = new XMLHttpRequest({mozSystem: true});
-    xhr.open('GET', addresse +"/"+currentSong.url, true);
+    xhr.open('GET', localStorage.getItem("address") +"/"+currentSong.url, true);
    
   xhr.addEventListener("progress", progressLoading(), false);
   xhr.addEventListener("load", loadingSong, false);
@@ -819,14 +821,18 @@ $("[name='switch-cache']").bootstrapSwitch('size', 'mini');
 
 
 		
-	$("[href='#modal-record']").click(function(){
+$("[href='#modal-record']").click(function(){
 	if(localStorage.getItem("cache_record") == "true"){
 		$("[name='switch-cache']").bootstrapSwitch('state',true);
 	}else{
 		$("[name='switch-cache']").bootstrapSwitch('state',false);
 
 	}
-	})
+});
+$("[href='#modal-server']").click(function(){
+	$("#server").val(localStorage.getItem("address").replace("http://","").split(":")[0]);
+	$("#port").val(localStorage.getItem("address").replace("http://","").split(":")[1]);
+});
 $("#confirm-record").click(function(){
 	
 	localStorage.setItem('cache_record', $("[name='switch-cache']").bootstrapSwitch('state'));
@@ -835,5 +841,9 @@ $("#confirm-record").click(function(){
 });
 });
 
-
+//affiche le div des musiques locales
+function showDivLocalSong(){
+  $("#listeMusique").show();
+  $("#titreListe").text("Musiques locales"); //Change le texte du titre en haut
+}
 
