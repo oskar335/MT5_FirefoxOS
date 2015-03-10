@@ -1,4 +1,4 @@
-MT5 - A multitrack HTML5 Player
+MT5 for Firefox OS - A multitrack Player for Firefox OS in HTML5
 ===========
 
 This project is a Firefox OS fork of the [original MT5](https://github.com/squallooo/MT5) by @squallooo and @micbuffa. While the original tries to be as cross-browser as possible, this one is optimized for the Gecko rendering engine, with a focus on small resolutions and low-budget CPUs. It also takes advantage of Firefox OS-only features, such as DeviceStorage, and cannot be used outside of Firefox OS yet.
