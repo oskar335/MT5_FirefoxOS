@@ -473,12 +473,12 @@
   padding: 8px 13px;
 }
 
-a.list-group-item {
-  background: #F5F5F5;
-}
+/*a.list-group-item {
+  background: #f5efea;
+}*/
 
 a.list-group-item:hover {
-  background: #FFFFFF;
+  background: #dcc8b6;
 }
 
 .list-group-item:first-child, {
@@ -491,4 +491,7 @@ a.list-group-item:hover {
   border-bottom: none;
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
+}
+a.list-group-item-success{
+	color:#503e2c;
 }

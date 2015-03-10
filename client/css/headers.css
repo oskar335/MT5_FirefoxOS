@@ -287,7 +287,7 @@ section[role="region"] header h2 {
  * ---------------------------------- */
 section[role="region"].skin-dark > header:first-child,
 .skin-dark > section[role="region"] > header:first-child {
-  background-color: #242D33;
+  background-color: #1a252f;
 }
 
 

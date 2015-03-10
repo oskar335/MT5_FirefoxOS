@@ -111,14 +111,15 @@ $("#loop").click(function(){
 
 //Action du bouton mode multi/monopiste
 $("#toggleMultipiste").click(function(){
-  
+  var span ="<span class=\"glyphicon glyphicon-tasks\"></span>";
   //Change le texte du bouton (multipise <-> monopiste)
-  $(this).text(function(i, text){
-    return text === "Mode Multipiste" ? "Mode Monopiste" : "Mode Multipiste";
+  $(this).html(function(i, text){
+	 
+    return text === span+"Mode Multipiste" ? span+"Mode Monopiste" : span+"Mode Multipiste";
   });
 
   //Si le texte est multipiste
-  if ($(this).text() === "Mode Monopiste") {
+  if ($(this).html() === span+"Mode Monopiste") {
     $("#listeMusique").hide(); //cache le div des musiques locales
     $("#listeMusiqueServer").hide(); //et distantes
     showDivMultiPiste(); //affiche le div des piste
@@ -130,6 +131,7 @@ $("#toggleMultipiste").click(function(){
       showDivServerSong(); //affiche le div des musiques distantes
     }
   }
+  
 });
 
 //Action du bouton parcourir les musiques locales
