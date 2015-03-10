@@ -61,7 +61,7 @@ $(document).ready(function(){
 
 	//TODO rechercher l'adresse du serveur par défaut
 	if(localStorage.getItem("address") == null){
-			  localStorage.setItem("address","http://mt5demo.gexsoft.com:8081");
+			  localStorage.setItem("address","http://mt5demo.gexsoft.com:80");
 	}
 	$("#server").val(localStorage.getItem("address").replace("http://","").split(":")[0]);
   	$("#port").val(localStorage.getItem("address").replace("http://","").split(":")[1]);
