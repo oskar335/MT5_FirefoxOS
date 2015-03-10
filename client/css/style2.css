@@ -21,8 +21,6 @@
 
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
-    -ms-animation: spin .7s infinite linear;
-    -webkit-animation: spinw .7s infinite linear;
     -moz-animation: spinm .7s infinite linear;
 }
  
@@ -39,4 +37,56 @@
 @-moz-keyframes spinm {
     from { -moz-transform: rotate(0deg);}
     to { -moz-transform: rotate(360deg);}
+}
+
+.container{
+padding-left: 0px;
+}
+#listePiste a ,#listeMusiqueServer a,#listeMusique a{
+	padding: 10px 2.5rem;
+}
+
+/*CSS FOOTER*/
+#loopBox,#loopBox button,#control,#control button,#toggleMultipiste{
+	border : none;
+	/*border-top: 0.1rem solid ;*/
+	border-radius: 0px;
+	background-color:transparent;
+	background-image:none;
+	color:white;
+}
+
+#loopBox .btn-default.active,#control .btn-default.active ,#toggleMultipiste btn-default.active{
+  background-color: #008CAA;
+  border-color: #245580;
+}
+/*#footer .row{
+
+padding-right: 0px;
+padding-left:0px;
+width:100%;
+}*/
+#footer{
+	/*background-color:black;*/
+	position : fixed;
+	width:100%;
+	bottom:0px;
+	/*background-color:transparent;*/
+}
+#titleCurrentSong{
+	color:white;
+}
+
+#toggleMultipiste span{
+ margin-right:1rem;
+}
+body{
+	/*background-image:linear-gradient(to top, #2C3E50 20%, #4f6f8f 100%);*/
+	background-color: #2C3E50;
+	background-image: url("images/texture.png");
+	background-repeat: repeat;
+}
+
+#divSlider div,#divSliderRange div{
+ color:white;
 }
