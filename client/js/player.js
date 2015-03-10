@@ -54,7 +54,14 @@ $(document).ready(function(){
 
 	}
 
-  
+	//TODO rechercher l'adresse du serveur par défaut
+	/*if(localStorage.getItem("address") == null){
+	  localStorage.setItem("address",false);
+	}*/
+	
+	$("#server").val(addresse.replace("http://","").split(":")[0]);
+  	$("#port").val(addresse.replace("http://","").split(":")[1]);
+
 /* 
 ===================================
   Méthodes : actions des boutons
@@ -160,7 +167,7 @@ $(btnBrowse).click(function(){
       $("#browseLocal").removeClass("active");
     }
   } else { //Sinon retour a la page de connexion
-    window.location = "initialisation.html";
+    $("#modal-server").modal('show');
   }
 });
 
@@ -234,11 +241,7 @@ function updateBtnPlay() {
   }
 }
 
-//affiche le div des musiques locales
-function showDivLocalSong(){
-  $("#listeMusique").show();
-  $("#titreListe").text("Musiques locales"); //Change le texte du titre en haut
-}
+
 
 //affiche le div des musiques du serveur
 function showDivServerSong(){
@@ -835,5 +838,9 @@ $("#confirm-record").click(function(){
 });
 });
 
-
+//affiche le div des musiques locales
+function showDivLocalSong(){
+  $("#listeMusique").show();
+  $("#titreListe").text("Musiques locales"); //Change le texte du titre en haut
+}
 

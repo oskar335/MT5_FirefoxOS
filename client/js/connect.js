@@ -1,7 +1,10 @@
 $(document).ready(function() {
+ 
 
 	// Verifier l'etat de la connexion au lancement
 	//
+	var btnBrowse = document.getElementById("browseServer");
+	var btnBrowseLocal = document.getElementById("browseLocal"); //bouton parcourir musiques locales
 	if (navigator.onLine) {
 	  	// Accepter l'entree des informations de connexion au serveur distant
 		$("#server").prop('disabled', false);
@@ -14,7 +17,7 @@ $(document).ready(function() {
 
 	// Traiter l'evenement de la connexion (modifie par Nouriel, traitement du button vis a vis de l'etat du reseau)
 	//
-	$("#connect").submit(function(){
+	$("#connect").click(function(){
 
 		var valide;
 
@@ -43,9 +46,15 @@ $(document).ready(function() {
 		if(valide){
 			var address= "http://"+server+":"+port;
 			localStorage.setItem('address', address);
-			return true;
+			
+			 
+			 var span = $(btnBrowse).find(".glyphicon");
+			span.addClass("glyphicon-globe");
+			span.removeClass("glyphicon-log-in");
+			$("#modal-server").modal('hide');
+
 		}else{
-			return false;
+			
 		}
 
 	});
@@ -54,8 +63,17 @@ $(document).ready(function() {
 	//
 	$("#modeHorsConnexion").click(function(){
 
-		localStorage.setItem('address', "");
-		window.location = "player.html";
+		//localStorage.setItem('address', "");
+		 $(btnBrowse).find(".glyphicon").toggleClass("glyphicon-globe");
+		$(btnBrowse).find(".glyphicon").toggleClass("glyphicon-log-in");
+		$("#listeMusiqueServer").hide(); 
+		$("#listePiste").hide();
+		showDivLocalSong();
+		$(btnBrowseLocal).addClass("active")
+		$(btnBrowse).removeClass("active")
+
+		//window.location = "player.html";
+		$("#modal-server").modal('hide');
 
 	});
 
