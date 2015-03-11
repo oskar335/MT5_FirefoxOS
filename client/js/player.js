@@ -181,16 +181,18 @@ $(btnBrowse).click(function(){
 
 function showDivLocalSong(){
   $("#listeMusique").show();
-  $("#mainTitle").text("MT5 - local");
+  $("#mainTitle").html("MT5 - local");
 }
 
 function showDivServerSong(){
   $("#listeMusiqueServer").show();
-  $("#mainTitle").text("MT5 - serveur");
+  $("#mainTitle").html("MT5 - serveur");
 }
 
 function showDivMultiPiste(){
   $("#listePiste").show();
+    $("#mainTitle").html("MT5 - multiPiste");
+
 }
 
 $(".btn btn-sm > .glyphicon glyphicon-volume-off").click(function(){
@@ -264,18 +266,6 @@ function updateBtnPlay() {
     span.addClass("glyphicon-refresh glyphicon-refresh-animate");
     btnPlay.disabled = true; //rend incliquable le bouton
   }
-}
-
-//affiche le div des musiques du serveur
-function showDivServerSong(){
-  $("#listeMusiqueServer").show();
-  $("#titreListe").text("Musiques distantes");
-}
-
-//affiche le div despistes de la musiques
-function showDivMultiPiste(){
-  $("#listePiste").show();
-  $("#titreListe").text("Multipiste ON");
 }
 
   hammertime.on('swipeleft', function(ev){
