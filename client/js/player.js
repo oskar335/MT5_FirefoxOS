@@ -35,7 +35,7 @@ $(document).ready(function(){
   $("#listeMusiqueServer").hide(); //Cache par défaut la liste des musiques distantes
 
   $("#loopReset").prop('disabled', true); //Desactive par defaut le reset boucle AB
-
+	$("#saveMix").prop('disabled', true);
   context = initAudioContext(); // Init audio context
 
   loadSongListLocal(); //initialise la liste des musiques en local
