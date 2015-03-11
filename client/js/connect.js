@@ -9,6 +9,16 @@ $(document).ready(function() {
 	  	// Accepter l'entree des informations de connexion au serveur distant
 		$("#server").prop('disabled', false);
 		$("#port").prop('disabled', false);
+
+		//test si la connexion au serveur est OK, sinon change le bouton parcourir musiques distantes
+		checkServer(localStorage.getItem('address'),function(e){
+			if(!e){
+				var span = $(btnBrowse).find(".glyphicon");
+				span.removeClass("glyphicon-globe");
+				span.addClass("glyphicon-log-in");
+			}
+		});
+
 	} else {
 		// Empecher l'entree des informations de connexion au serveur distant
 		$("#server").prop('disabled', true);
