@@ -91,3 +91,13 @@ body{
 #divSlider div,#divSliderRange div{
  color:white;
 }
+
+.popover-title {
+    color: #e44932;
+    font-size: 15px;
+}
+.popover-content {
+    color: #32cde4;
+    font-size: 12px;
+}
+

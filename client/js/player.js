@@ -58,12 +58,13 @@ $(document).ready(function(){
 
 	}
 
-	//TODO rechercher l'adresse du serveur par défaut
+  //Par défaut s'adresse au serveur de micbuffa
 	if(localStorage.getItem("address") == null || localStorage.getItem("address") == ""){
 			  localStorage.setItem("address","http://mt5demo.gexsoft.com:80");
 	}
 	$("#server").val(localStorage.getItem("address").replace("http://","").split(":")[0]);
   	$("#port").val(localStorage.getItem("address").replace("http://","").split(":")[1]);
+
 
 /* 
 ===================================
@@ -73,15 +74,33 @@ $(document).ready(function(){
 
   //Action du bouton play
   $(btnPlay).click(function(){
-    //Si le bouton e
-    if(this.dataset.state === "play"){
-      playAllTracks();
-      this.dataset.state = "pause";
-    } else {
-      pauseAllTracks();
-      this.dataset.state = "play";
+    try{
+      if(this.dataset.state === "play"){
+        playAllTracks();
+        this.dataset.state = "pause";
+      } else {
+        pauseAllTracks();
+        this.dataset.state = "play";
+      }
+      updateBtnPlay();
+    }catch (e){
+
+      //déclaration de la popover d'erreur
+      $(btnPlay).popover({
+          'content' : "Merci de choisir une musique",
+          'title' : "Erreur",
+          'placement' : 'top',
+          'trigger' : 'manual'
+      });
+
+     $(btnPlay).on('shown.bs.popover', function () {
+        setTimeout(function(){
+            $(btnPlay).popover('hide');
+        },1400);
+    });
+    $(btnPlay).popover('show');
     }
-    updateBtnPlay();
+    
     
   });
 
@@ -409,9 +428,23 @@ function intToMinutes(secs){
   return min + ":" + sec;
 }
 
+//Met l'application en mode hors ligne en modifiant le HTML 
+  function setOfflineMode(){
+    $(btnBrowse).find(".glyphicon").removeClass("glyphicon-globe");
+    $(btnBrowse).find(".glyphicon").addClass("glyphicon-log-in");
+    $("#listeMusiqueServer").hide(); 
+    $("#listePiste").hide();
+    showDivLocalSong();
+    $(btnBrowseLocal).addClass("active");
+    $(btnBrowse).removeClass("active");
+  } 
 
 
-// MODIF CONNECTION JS PROF
+/* 
+===================================
+  Méthodes : Code métier
+===================================
+*/
 
 
 function initAudioContext() {
@@ -442,16 +475,47 @@ function loadSongList() {
     var s = $("#listeMusiqueServer");
 
 xhr.onload = function (e) {
-  var songList = JSON.parse(this.response);
-  s.empty();
-  songList.forEach(function (songName) {
-    console.log(songName);
-    if(songName.indexOf(".") != 0) //évite les fichiers/dossiers tq '.', '..', '.DS_Store' etc
-      if (currentSong && songName == currentSong.name) 
-        s.append('<a href="#" class="list-group-item clearfix active">' + songName + '</a>');
-      else
-        s.append('<a href="#" class="list-group-item clearfix">' + songName + '</a>');
-  });
+
+  if(xhr.status === 200 && this.response !== null){
+    var songList = JSON.parse(this.response);
+    s.empty();
+    songList.forEach(function (songName) {
+      console.log(songName);
+      if(songName.indexOf(".") != 0) //évite les fichiers/dossiers tq '.', '..', '.DS_Store' etc
+        if (currentSong && songName == currentSong.name) 
+          s.append('<a href="#" class="list-group-item clearfix active">' + songName + '</a>');
+        else
+          s.append('<a href="#" class="list-group-item clearfix">' + songName + '</a>');
+    });
+  }else {
+    //déclaration de la popover d'erreur
+    $(btnBrowse).popover({
+        'content' :"Impossible de charger la liste",
+        'title' : "Erreur",
+        'placement' : 'top',
+        'trigger' : 'manual'
+    });
+
+     $(btnBrowse).on('shown.bs.popover', function () {
+        setTimeout(function(){
+            $(btnBrowse).popover('hide');
+        },1400);
+    });
+
+    $(btnBrowse).popover('show');
+    $("#listeMusiqueServer").hide(); 
+    $("#listePiste").hide();
+    showDivLocalSong();
+    $(btnBrowseLocal).addClass("active");
+    $(btnBrowse).removeClass("active");
+    
+  }
+
+  xhr.onerror = function(e){
+    console.error(e);
+    setOfflineMode();
+  }
+
 };
 xhr.send();
 }
@@ -833,6 +897,8 @@ var isLocal = false;
     // adjust track volumes dependinf on all mute/solo states
     currentSong.setTrackVolumesDependingOnMuteSoloStatus();
   }
+
+  
 //###MENU###
 $("[name='switch-cache']").bootstrapSwitch('size', 'mini');
 
@@ -856,7 +922,11 @@ $("#confirm-record").click(function(){
 	$('#modal-record').modal('hide');
 
 });
+
+
 });
+
+
 
 //affiche le div des musiques locales
 function showDivLocalSong(){
