@@ -32,7 +32,18 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 						}
 						,function (error) {
 							console.error('decodeAudioData error', error);
-							alert(error);
+							$("#footer").popover({
+								'content' :error,
+								'title' : "Erreur",
+								'placement' : 'top',
+								'trigger' : 'manual'
+							});			
+							$("#footer").popover('show');
+							$("#footer").on('shown.bs.popover', function () {
+								setTimeout(function(){
+									$("#footer").popover('hide');
+								},1400);
+							});
 							//TODO faire le rollback
 						}
 				);
@@ -63,7 +74,19 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 					}
 					,function (error) {
 						console.error('decodeAudioData error', error);
-						alert(error);
+						$("#footer").popover({
+							'content' :error,
+							'title' : "Erreur",
+							'placement' : 'top',
+							'trigger' : 'manual'
+						});
+						
+						$("#footer").popover('show');
+						$("#footer").on('shown.bs.popover', function () {
+							setTimeout(function(){
+								$("#footer").popover('hide');
+							},1400);
+						});
 						//TODO faire le rollback
 					}
 			);
@@ -77,7 +100,18 @@ function getCallback (buffer,loader,index) {
 
 	if (!buffer) {
 		console.error('error decoding file data: ' + url);
-		alert('error decoding file data: ' + url);
+		$("#footer").popover({
+			'content' :error,
+			'title' : 'error decoding file data: ' + url,
+			'placement' : 'top',
+			'trigger' : 'manual'
+		});	
+		$("#footer").popover('show');
+			$("#footer").on('shown.bs.popover', function () {
+				setTimeout(function(){
+					$("#footer").popover('hide');
+				},1400);
+			});
 
 		return;
 	}
