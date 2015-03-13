@@ -24,7 +24,18 @@ function saveMusic(name,arrayBuf){
 	};
 	requestMusic.onerror = function () {
 		console.error(this.error.name);
-		alert("erreur d'enrengistrement");
+		$("#footer").popover({
+        'content' :"erreur d'enrengistrement",
+        'title' : "Erreur",
+        'placement' : 'top',
+        'trigger' : 'manual'
+		});
+		$("#footer").popover('show');
+			$("#footer").on('shown.bs.popover', function () {
+				setTimeout(function(){
+					$("#footer").popover('hide');
+				},1400);
+			});
 	};
 }
 /*suppression musique: name  == MT5/nomdossier/nomdufichier */
@@ -39,7 +50,18 @@ function deletedMusic(name){
 
 	requestDel.onerror = function () {
 		console.error(this.error.name);
-		alert("erreur de suppression");
+		$("#footer").popover({
+        'content' :"erreur de suppression",
+        'title' : "Erreur",
+        'placement' : 'top',
+        'trigger' : 'manual'
+		});
+		$("#footer").popover('show');
+			$("#footer").on('shown.bs.popover', function () {
+			setTimeout(function(){
+				$("#footer").popover('hide');
+			},1400);
+		});
 
 	}
 }
@@ -60,8 +82,19 @@ function deleteLocalMusic(name,callback){
 				callback();
 			}
 			requestDel.onerror = function () {
-				console.error(this.error.name);
-				alert("erreur de suppression");
+			console.error(this.error.name);
+			$("#footer").popover({
+				'content' :"erreur de suppression",
+				'title' : "Erreur",
+				'placement' : 'top',
+				'trigger' : 'manual'
+			});
+			$("#footer").popover('show');
+				$("#footer").on('shown.bs.popover', function () {
+					setTimeout(function(){
+						$("#footer").popover('hide');
+					},1400);
+				});
 			}
 		}
 	}
@@ -71,7 +104,6 @@ function deleteLocalMusic(name,callback){
 function readMusic(name, callback){
 	var sdcard = navigator.getDeviceStorage("music");
 	var requestDown = sdcard.get(name);
-
 	requestDown.onsuccess = function () {
 		var result_file = this.result;
 		var reader = new FileReader();
@@ -86,7 +118,18 @@ function readMusic(name, callback){
 			callback(false);
 		}else{
 			console.error(this.error.name);
-			alert("erreur de récupération");
+			$("#footer").popover({
+				'content' :"erreur de récupération",
+				'title' : "Erreur",
+				'placement' : 'top',
+				'trigger' : 'manual'
+			});
+			$("#footer").popover('show');
+				$("#footer").on('shown.bs.popover', function () {
+					setTimeout(function(){
+						$("#footer").popover('hide');
+					},1400);
+			});
 		}
 
 	}
