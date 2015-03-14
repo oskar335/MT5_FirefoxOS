@@ -82,8 +82,8 @@ function deleteLocalMusic(name,callback){
 						$("#footer").popover('hide');
 					},1400);
 				});
-			}
 	}
+	
 	else{
 		if (result = window.confirm("Êtes-vous sûr de vouloir supprimer "+name+" ?")) {
 
