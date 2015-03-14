@@ -33,6 +33,7 @@ $(document).ready(function(){
 	$("#listePiste").hide(); //Cache par défaut la liste des pistes d'une musiques
 	$("#listeMusiqueServer").hide(); //Cache par défaut la liste des musiques distantes
 
+
 	$("#loopReset").prop('disabled', true); //Desactive par defaut le reset boucle AB
 	$("#saveMix").prop('disabled', true);
 	context = initAudioContext(); // Init audio context
@@ -65,7 +66,6 @@ $(document).ready(function(){
 	$("#port").val(localStorage.getItem("address").replace("http://","").split(":")[1]);
 
 
-
 	/* 
 ===================================
   Méthodes : actions des boutons
@@ -74,6 +74,7 @@ $(document).ready(function(){
 
 	//Action du bouton play
 	$(btnPlay).click(function(){
+
 		try{
 			if(this.dataset.state === "play"){
 				playAllTracks();
@@ -128,32 +129,6 @@ $(document).ready(function(){
 		updateDivSliderRange();
 	});
 
-
-
-
-
-	//Action du bouton de boucle (1er a gauche)
-	$("#loopAB").click(function(){
-		$(this).toggleClass("active");
-		$("#divSlider").toggle();
-		$("#divSliderRange").toggle();
-
-		//Toggle la desactivation du bouton reset boucle AB (togggleDisable)
-		$( "#loopReset" ).prop( "disabled", function( i, val ) {
-			return !val;
-		});
-
-		//Toggle la desactivation du bouton reset boucle lecture normale
-		$( "#loop" ).prop( "disabled", function( i, val ) {
-			return !val;
-		});
-	});
-
-//	Action du bouton de reset de boucle AB
-	$("#loopReset").click(function(){
-		$("#slider-range").slider( "option", "values", [0,dureeTotale] );
-		updateDivSliderRange();
-	});
 
 //	Action du bouton de boucle pour revenir au debut de la chanson
 	$("#loop").click(function(){
@@ -625,6 +600,7 @@ $(document).ready(function(){
 		if(endsWith(fileName, ".ogg")) return true;
 		if(endsWith(fileName, ".wav")) return true;
 		return false;
+
 	}
 
 	function endsWith(str, suffix) {
@@ -668,6 +644,7 @@ $(document).ready(function(){
 			'<span class="glyphicon glyphicon-headphones"></span>'+
 			'</button>'+
 			'</span>';
+
 
 
 			// for eah instrument/track in the song
@@ -768,7 +745,6 @@ $(document).ready(function(){
 		btnPlay.dataset.state = "loading";
 		updateBtnPlay();
 		bufferLoader=null;
-
 
 		if(isLocal){
 			bufferLoader = new BufferLoader(
@@ -954,7 +930,6 @@ $(document).ready(function(){
 	});
 
 });
-
 
 //affiche le div des musiques locales
 function showDivLocalSong(){
