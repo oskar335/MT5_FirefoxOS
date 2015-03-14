@@ -91,3 +91,14 @@ body{
 #divSlider div,#divSliderRange div{
  color:white;
 }
+
+/* Css section "A propos" */
+
+.titreAPropos {
+    font-size: x-large;
+	margin-bottom : 3rem;
+}
+
+.panel-body ul li {
+	font-size: medium;
+}
