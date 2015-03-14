@@ -30,7 +30,9 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 						request.response,function(buffer){
 							getCallback(buffer,loader,index);
 						}
-						,bufferError(error)
+						,function(error){
+							bufferError(error)
+						}	
 
 				);
 			};
@@ -56,7 +58,9 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 					bufSong,function(buffer){
 						getCallback(buffer,loader,index);
 					}
-					,bufferError(error)
+					,function(error){
+						bufferError(error)
+					}
 			);
 		}
 	});
