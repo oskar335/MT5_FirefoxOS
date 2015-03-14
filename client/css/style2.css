@@ -92,6 +92,7 @@ body{
  color:white;
 }
 
+
 .popover-title {
     color: #e44932;
     font-size: 15px;
@@ -100,3 +101,15 @@ body{
     color: #32cde4;
     font-size: 12px;
 }
+
+/* Css section "A propos" */
+
+.titreAPropos {
+    font-size: x-large;
+	margin-bottom : 3rem;
+}
+
+.panel-body ul li {
+	font-size: medium;
+}
+
