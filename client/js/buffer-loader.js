@@ -30,26 +30,10 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 						request.response,function(buffer){
 							getCallback(buffer,loader,index);
 						}
-						,function (error) {
-							console.error('decodeAudioData error', error);
-							$("#footer").popover({
-								'content' :error,
-								'title' : "Erreur",
-								'placement' : 'top',
-								'trigger' : 'manual'
-							});			
-							$("#footer").popover('show');
-							$("#footer").on('shown.bs.popover', function () {
-								setTimeout(function(){
-									$("#footer").popover('hide');
-								},1400);
-							});
-							//TODO faire le rollback
-						}
+						,bufferError(error)
+
 				);
 			};
-
-
 			/*request.onprogress = function (e) {
 
 			if (e.total !== 0) {
@@ -72,27 +56,37 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 					bufSong,function(buffer){
 						getCallback(buffer,loader,index);
 					}
-					,function (error) {
-						console.error('decodeAudioData error', error);
-						$("#footer").popover({
-							'content' :error,
-							'title' : "Erreur",
-							'placement' : 'top',
-							'trigger' : 'manual'
-						});
-						
-						$("#footer").popover('show');
-						$("#footer").on('shown.bs.popover', function () {
-							setTimeout(function(){
-								$("#footer").popover('hide');
-							},1400);
-						});
-						//TODO faire le rollback
-					}
+					,bufferError(error)
 			);
 		}
 	});
 };
+
+//comportement de decode audio en cas d'erreur
+function bufferError(error){
+	console.error('decodeAudioData error', error);
+	$("#footer").popover({
+		'content' : error,
+		'title' : "Erreur",
+		'placement' : 'top',
+		'trigger' : 'manual'
+	});
+
+	$("#footer").popover('show');
+	$("#footer").on('shown.bs.popover', function () {
+		setTimeout(function(){
+			$("#footer").popover('hide');
+		},1400);
+	});
+	var span = $(document.getElementById("bplay")).find(".glyphicon");
+	document.getElementById("bplay").dataset.state = "play"; //met le bouton play en état play
+	span.removeClass("glyphicon-pause"); //supprime l'icone pause
+	span.removeClass("glyphicon-refresh glyphicon-refresh-animate"); //supprime l'icone chargement
+	span.addClass("glyphicon-play");  //ajout l'icone play
+	document.getElementById("bplay").disabled = false; //rend cliquable le bouton
+	return;
+}
+
 
 function getCallback (buffer,loader,index) {
 	console.log("Loaded and decoded track " + (loader.loadCount + 1) +
@@ -100,20 +94,7 @@ function getCallback (buffer,loader,index) {
 
 	if (!buffer) {
 		console.error('error decoding file data: ' + url);
-		$("#footer").popover({
-			'content' :error,
-			'title' : 'error decoding file data: ' + url,
-			'placement' : 'top',
-			'trigger' : 'manual'
-		});	
-		$("#footer").popover('show');
-			$("#footer").on('shown.bs.popover', function () {
-				setTimeout(function(){
-					$("#footer").popover('hide');
-				},1400);
-			});
-
-		return;
+		bufferError('error decoding file data: ' + url);
 	}
 	loader.bufferList[index] = buffer;
 
@@ -125,7 +106,11 @@ BufferLoader.prototype.load = function () {
 	// M.BUFFA added these two lines.
 	this.bufferList = [];
 	this.loadCount = 0;
-	console.log("Loading tracks "+this.urlList.length+"... please wait...");
-	for (var i = 0; i < this.urlList.length; ++i)
-		this.loadBuffer(this.urlList[i], i);
+	console.log("Loading "+this.urlList.length+ " tracks ... please wait...");
+	if(this.urlList.length==0){
+		bufferError(" : musique absente");
+	}else{
+		for (var i = 0; i < this.urlList.length; ++i)
+			this.loadBuffer(this.urlList[i], i);
+	}
 };
