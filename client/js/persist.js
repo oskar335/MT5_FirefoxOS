@@ -70,7 +70,19 @@ function deletedMusic(name){
 function deleteLocalMusic(name,callback){
 
 	if((name.endsWith(".ogg")) || (name.endsWith(".mp3")) || (name.endsWith(".wav"))){
-		alert("Vous ne pouvez supprimer que des musiques MT5.");
+		$("#footer").popover({
+				'content' :"Vous ne pouvez supprimer que des musiques MT5.",
+				'title' : "Erreur",
+				'placement' : 'top',
+				'trigger' : 'manual'
+			});
+			$("#footer").popover('show');
+				$("#footer").on('shown.bs.popover', function () {
+					setTimeout(function(){
+						$("#footer").popover('hide');
+					},1400);
+				});
+			}
 	}
 	else{
 		if (result = window.confirm("Êtes-vous sûr de vouloir supprimer "+name+" ?")) {
