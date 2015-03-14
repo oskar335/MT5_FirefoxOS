@@ -102,6 +102,7 @@ body{
     font-size: 12px;
 }
 
+
 /* Css section "A propos" */
 
 .titreAPropos {
@@ -111,4 +112,4 @@ body{
 
 .panel-body ul li, .panel-body a {
 	font-size: medium;
-}
+
