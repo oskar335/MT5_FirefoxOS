@@ -99,6 +99,6 @@ body{
 	margin-bottom : 3rem;
 }
 
-.panel-body ul li {
+.panel-body ul li, .panel-body a {
 	font-size: medium;
 }
