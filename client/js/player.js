@@ -488,6 +488,7 @@ xhr.onload = function (e) {
           s.append('<a href="#" class="list-group-item clearfix">' + songName + '</a>');
     });
   }else {
+
     //déclaration de la popover d'erreur
     $(btnBrowse).popover({
         'content' :"Impossible de charger la liste",
@@ -495,14 +496,16 @@ xhr.onload = function (e) {
         'placement' : 'top',
         'trigger' : 'manual'
     });
-
+    //le fait disparaitre au bout de 1,4 sec
      $(btnBrowse).on('shown.bs.popover', function () {
         setTimeout(function(){
             $(btnBrowse).popover('hide');
         },1400);
     });
 
+    //Montre le popover
     $(btnBrowse).popover('show');
+
     $("#listeMusiqueServer").hide(); 
     $("#listePiste").hide();
     showDivLocalSong();
@@ -909,18 +912,17 @@ $("[href='#modal-record']").click(function(){
 		$("[name='switch-cache']").bootstrapSwitch('state',true);
 	}else{
 		$("[name='switch-cache']").bootstrapSwitch('state',false);
-
 	}
 });
+
 $("[href='#modal-server']").click(function(){
 	$("#server").val(localStorage.getItem("address").replace("http://","").split(":")[0]);
 	$("#port").val(localStorage.getItem("address").replace("http://","").split(":")[1]);
 });
+
 $("#confirm-record").click(function(){
-	
 	localStorage.setItem('cache_record', $("[name='switch-cache']").bootstrapSwitch('state'));
 	$('#modal-record').modal('hide');
-
 });
 
 
