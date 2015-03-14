@@ -70,17 +70,17 @@ function deletedMusic(name){
 function deleteLocalMusic(name,callback){
 
 	if((name.endsWith(".ogg")) || (name.endsWith(".mp3")) || (name.endsWith(".wav"))){
-		$("#footer").popover({
+		$("#listeMusique").popover({
 				'content' :"Vous ne pouvez supprimer que des musiques MT5.",
 				'title' : "Erreur",
-				'placement' : 'top',
+				'placement' : 'bottom',
 				'trigger' : 'manual'
 			});
-			$("#footer").popover('show');
-				$("#footer").on('shown.bs.popover', function () {
+			$("#listeMusique").popover('show');
+				$("#listeMusique").on('shown.bs.popover', function () {
 					setTimeout(function(){
-						$("#footer").popover('hide');
-					},1400);
+						$("#listeMusique").popover('hide');
+					},2500);
 				});
 	}
 	
@@ -95,16 +95,16 @@ function deleteLocalMusic(name,callback){
 			}
 			requestDel.onerror = function () {
 			console.error(this.error.name);
-			$("#footer").popover({
+			$("#listeMusique").popover({
 				'content' :"erreur de suppression",
 				'title' : "Erreur",
-				'placement' : 'top',
+				'placement' : 'bottom',
 				'trigger' : 'manual'
 			});
-			$("#footer").popover('show');
-				$("#footer").on('shown.bs.popover', function () {
+			$("#listeMusique").popover('show');
+				$("#listeMusique").on('shown.bs.popover', function () {
 					setTimeout(function(){
-						$("#footer").popover('hide');
+						$("#listeMusique").popover('hide');
 					},1400);
 				});
 			}
