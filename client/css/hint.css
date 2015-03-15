@@ -3,7 +3,7 @@
 }
 
 .darker {
-  opacity: 0.2;
+  opacity: 0.05;
 }
 
 .carousel, .carousel-inner > .item {
@@ -26,7 +26,7 @@
 .carousel-control {
   z-index: 900;
   width: 50%;
-  height: 89%;
+  height: 90%;
   bottom: 0;
   top: auto;
 }
