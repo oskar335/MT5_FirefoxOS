@@ -9,6 +9,8 @@ MT5 is a multitrack player that has been developed for musicians who like to stu
 
 This repository contains a nodeJS server to host your audio files and MT5 itself, the mobile client. The default behaviour is that the client will connect to @micbuffa's server, but you can customize the server address in the app.
 
+A complete tutorial is available in the wiki of this project.
+
 Server setup
 -----------
 
@@ -22,8 +24,8 @@ Just download the app, and put your server IP in the settings menu.
 Technical informations
 -----------
 
-The multitrack songs are located in the directory assigned to TRACK_PATH, this is by default client/multitrack, and a multitrack song is just a directory with files in it, corresponding to the tracks. Just create new dir with mp3, ogg, wav files and reload the page, you will be able to play new songs.
+This project is based on Web Audio API allowing to play some songs in the same time and create loops.
 
-The dirty work of managing the GUI, events, etc is done in player.js... the main clock is in there too. We use requestAnimationFrame in order to measure time by intervals of about 1/60th of a second. Deltas are measured there in order to know "where we are in a song", and be able to jump or restart after a stop or a pause.
+The multitrack songs are located in the directory assigned to TRACK_PATH, this is by default client/multitrack, and a multitrack song is just a directory with files in it, corresponding to the tracks. Just create new dir with mp3, ogg, wav files and reload the page, you will be able to play new songs.
 
 Web audio pausing or jumping in a song is way unnatural as the AudioBufferSource nodes can be started and stopped only once. This "fire and forget" approach chosen in web audio for these particular nodes means that we need to rebuild partially the web audio graph at each pause or jump. The play/pause/jump and building of the audio graph is done in the song.js file.
