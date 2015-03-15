@@ -19,7 +19,27 @@ $(document).ready(function() {
     },
     {
       img: "img/swipe_delete.png",
-      caption: "<strong>Glissez</strong> pour supprimer les musiques MT5"
+      caption: "<strong>Faites glisser</strong> vers la gauche pour supprimer une musique multipiste"
+    },
+    {
+      img: "img/multitrack.png",
+      caption: "Si vous avez choisi une musique multipiste, <strong>tapez</strong> sur ce bouton pour afficher les différentes pistes"
+    },
+    {
+      img: "img/trackButtons.png",
+      caption: "Vous pouvez ensuite mettre une piste en mode silencieux ou solo en <strong>tapant</strong> sur ces boutons, respectivement"
+    },
+    {
+      img: "img/loopButtons.png",
+      caption: "Ces boutons vous permettent d'activer le mode boucle, et d'étendre la durée de la boucle au maximum"
+    },
+    {
+      img: "img/loopHandles.png",
+      caption: "<strong>Tirez</strong> sur les poignées pour régler la longueur de la boucle"
+    },
+    {
+      img: "img/rewind.png",
+      caption: "Enfin, ce bouton remet la musique à zéro. Amusez-vous bien !"
     }
   ];
 
