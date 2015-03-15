@@ -39,9 +39,6 @@
     to { -moz-transform: rotate(360deg);}
 }
 
-.container{
-padding-left: 0px;
-}
 #listePiste a ,#listeMusiqueServer a,#listeMusique a{
 	padding: 10px 2.5rem;
 }

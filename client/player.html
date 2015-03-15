@@ -19,10 +19,29 @@
 	<link rel="stylesheet" type="text/css" href="css/style2.css" />
 
 	<link rel="stylesheet" type="text/css" href="css/headers.css" />
+	<link rel="stylesheet" type="text/css" href="css/hint.css" />
 	<!--<link href="dist/css/flat-ui.css" rel="stylesheet">-->
 </head>
 
 <body>
+
+	<!-- Aides diverses, ne s'affichera pas par défaut -->
+	<div id="hintPanel" class="container">
+		<div class="row">
+			<div id="hintCarousel" class="col-xs-12 carousel">
+				<ol id="hintCarouselNavigator" class="carousel-indicators"></ol>
+
+				<div id="hintCarouselInner" class="carousel-inner" role="listbox"></div>
+
+				<a class="left carousel-control" href="#hintCarousel" role="button" data-slide="prev">
+			    	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			  	</a>
+			  	<a class="right carousel-control" href="#hintCarousel" role="button" data-slide="next">
+			    	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			  	</a>
+		  	</div>
+	  	</div>
+  	</div>
 
 	<!-- Menu de l'application -->
 	<nav id="topBar">
@@ -95,7 +114,7 @@
 	</nav>
 
 	<!-- Contenu du player -->
-	<div class="container text-center">
+	<div id="content" class="container text-center">
 
 		<div id="listeMusique" class="row list-group text-left customList wrap"></div>
 		<div id="listeMusiqueServer" class="row list-group text-left customList wrap"></div>
@@ -185,6 +204,7 @@
 	<script src="js/song.js"></script>
 	<script src="js/player.js"></script>
 	<script src="js/connect.js"></script>
+	<script src="js/hint.js"></script>
 
 </body>
 </html>

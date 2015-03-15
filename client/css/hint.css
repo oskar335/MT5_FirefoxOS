@@ -1,0 +1,32 @@
+#hintPanel {
+  display: none;
+}
+
+.darker {
+  opacity: 0.2;
+}
+
+.carousel, .carousel-inner > .item {
+  position: static;
+  height: 100%;
+  padding: 0;
+}
+
+.carousel-inner {
+  position: absolute;
+  height: 100%;
+}
+
+.carousel-inner > .item > img {
+  position: relative;
+  margin: auto;
+  top: 50%;
+}
+
+.carousel-control {
+  z-index: 900;
+  width: 50%;
+  height: 89%;
+  bottom: 0;
+  top: auto;
+}
