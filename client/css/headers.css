@@ -464,3 +464,7 @@ div#help {
   position: absolute;
   right: 0;
 }
+
+div#help.active {
+  background-color: #dc6a0e !important;
+}
