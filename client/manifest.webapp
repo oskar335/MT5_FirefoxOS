@@ -11,13 +11,20 @@
   "developer": {
     "name": "MT5 for Firefox OS Team",
     "url": "https://github.com/romainchalut/MT5_FirefoxOS"
-  }
+  },
   "type": "privileged",
   "default_locale": "fr",
 	"permissions": {
-	"systemXHR" : {},
-	  "device-storage:sdcard":  { "access": "readwrite" },
-	  "device-storage:music":   { "access": "readwrite" }	  
+	  "systemXHR" : {
+      "description": "Required for accessing the MT5 server."
+    },
+	  "device-storage:sdcard": { 
+      "access": "readwrite",
+      "description": "Required for deleting music files."
+    },
+	  "device-storage:music": {
+      "access": "readwrite",
+      "description": "Required for playing music and writing cache files to the SD card."
+    }
 	}
-
 }
