@@ -43,3 +43,8 @@ Contributors
 
 * Michel Buffa (micBuffa)
 * Didier Courtaud (Desiderius77)
+
+Privacy Policy
+-----------
+
+A privacy policy is available [here](http://romainchalut.github.io/MT5_FirefoxOS/privacy-policy.html).
