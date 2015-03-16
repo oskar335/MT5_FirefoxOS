@@ -28,6 +28,7 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 				// Asynchronously decode the audio file data in request.response
 				loader.context.decodeAudioData(
 						request.response,function(buffer){
+
 							getCallback(buffer,loader,index);
 						}
 						,function(error){
@@ -37,10 +38,13 @@ BufferLoader.prototype.loadBuffer = function (url, index) {
 				);
 			};
 			/*request.onprogress = function (e) {
-
+			console.log(e);
 			if (e.total !== 0) {
 				var percent = (e.loaded * 100) / e.total;
 				console.log("loaded " + percent  + "of song " + index);
+				$(".progress-bar")
+					.css('width', percent+'%')
+					.attr('aria-valuenow',percent);
 				//var progress = document.querySelector("#progress" + index);
 				//progress.value = e.loaded;
 				// progress.max = e.total;
@@ -93,7 +97,15 @@ function bufferError(error){
 
 
 function getCallback (buffer,loader,index) {
+	$("#infoText").text("Chargement et décodage : " + (loader.loadCount + 1) +
+			"/" + loader.urlList.length + "...");
 	
+	var value = ((loader.loadCount + 1)/loader.urlList.length) * 100 ;
+
+	$(".progress-bar")
+		.css("width",value+"%")
+		.attr("aria-valuenow",value);
+
 	if (!buffer) {
 		console.error('error decoding file data: ' + url);
 		bufferError('error decoding file data: ' + url);
@@ -108,7 +120,13 @@ BufferLoader.prototype.load = function () {
 	// M.BUFFA added these two lines.
 	this.bufferList = [];
 	this.loadCount = 0;
-	console.log("Loading "+this.urlList.length+ " tracks ... please wait...");
+	$("#progressInfo").show();
+	$("#infoText").text("Chargement "+this.urlList.length+ " piste(s)...");
+
+	$(".progress-bar")
+		.css("width","0%")
+		.attr("aria-valuenow",0);
+	
 	if(this.urlList.length==0){
 		bufferError(" : musique absente");
 	}else{

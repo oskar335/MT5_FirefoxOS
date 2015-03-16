@@ -70,7 +70,7 @@ width:100%;
 	bottom:0px;
 	/*background-color:transparent;*/
 }
-#titleCurrentSong{
+#titleCurrentSong, #infoText{
 	color:white;
 }
 
@@ -109,4 +109,4 @@ body{
 
 .panel-body ul li, .panel-body a {
 	font-size: medium;
-
+}

@@ -32,6 +32,7 @@ $(document).ready(function(){
 	$("#divSliderRange").hide(); //Cache par defaut le slider boucle AB (slider range)
 	$("#listePiste").hide(); //Cache par défaut la liste des pistes d'une musiques
 	$("#listeMusiqueServer").hide(); //Cache par défaut la liste des musiques distantes
+	$("#progressInfo").hide();
 
 
 	$("#loopReset").prop('disabled', true); //Desactive par defaut le reset boucle AB
@@ -625,7 +626,7 @@ $(document).ready(function(){
 		xhr.addEventListener("progress", progressLoading(), false);
 		xhr.addEventListener("load", loadingSong, false);
 
-		function progressLoading(){
+		function progressLoading(){	
 			btnPlay.dataset.state = "loading";
 			updateBtnPlay();
 		}
@@ -859,6 +860,11 @@ $(document).ready(function(){
 
 		btnPlay.dataset.state = "play";
 		updateBtnPlay();
+		$("#infoText").text("");
+		$("#progressInfo").hide();
+		$(".progress-bar")
+			.css("width","0%")
+			.attr("aria-valuenow",0);
 	}
 
 	//Permet de filtrer le son sur un des instruments de la musique
