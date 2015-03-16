@@ -29,3 +29,17 @@ This project is based on Web Audio API allowing to play some songs in the same t
 The multitrack songs are located in the directory assigned to TRACK_PATH, this is by default client/multitrack, and a multitrack song is just a directory with files in it, corresponding to the tracks. Just create new dir with mp3, ogg, wav files and reload the page, you will be able to play new songs.
 
 Web audio pausing or jumping in a song is way unnatural as the AudioBufferSource nodes can be started and stopped only once. This "fire and forget" approach chosen in web audio for these particular nodes means that we need to rebuild partially the web audio graph at each pause or jump. The play/pause/jump and building of the audio graph is done in the song.js file.
+
+Contributors 
+-----------
+
+* Nouriel Azria (Felours)
+* Medhy Salim (BrainZz)
+* Svetlana Kvasova (kvassova)
+* Romain Chalut (RomainChalut) 
+* Alexis Manganiello (AlexManga)
+* Alex Pernot (AlexPernot) 
+
+
+* Michel Buffa (micBuffa)
+* Didier Courtaud (Desiderius77)
