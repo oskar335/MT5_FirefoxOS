@@ -93,9 +93,7 @@ function bufferError(error){
 
 
 function getCallback (buffer,loader,index) {
-	console.log("Loaded and decoded track " + (loader.loadCount + 1) +
-			"/" + loader.urlList.length + "...");
-
+	
 	if (!buffer) {
 		console.error('error decoding file data: ' + url);
 		bufferError('error decoding file data: ' + url);

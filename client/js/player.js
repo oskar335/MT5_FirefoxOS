@@ -121,6 +121,9 @@ $(document).ready(function(){
 		$( "#loop" ).prop( "disabled", function( i, val ) {
 			return !val;
 		});
+		pauseAllTracks();
+		btnPlay.dataset.state = "play";
+		updateBtnPlay();
 	});
 
 //	Action du bouton de reset de boucle AB
@@ -550,7 +553,6 @@ $(document).ready(function(){
 				var songList = JSON.parse(this.response);
 				s.empty();
 				songList.forEach(function (songName) {
-					console.log(songName);
 					if(songName.indexOf(".") != 0) //évite les fichiers/dossiers tq '.', '..', '.DS_Store' etc
 						if (currentSong && songName == currentSong.name) 
 							s.append('<a href="#" class="list-group-item clearfix active">' + songName + '</a>');
