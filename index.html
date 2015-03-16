@@ -31,37 +31,51 @@
         <hr>
 
         <section id="main_content">
-          <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+          <h1>
+<a id="mt5-for-firefox-os---a-multitrack-player-for-firefox-os-in-html5" class="anchor" href="#mt5-for-firefox-os---a-multitrack-player-for-firefox-os-in-html5" aria-hidden="true"><span class="octicon octicon-link"></span></a>MT5 for Firefox OS - A multitrack Player for Firefox OS in HTML5</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>This project is a Firefox OS fork of the <a href="https://github.com/squallooo/MT5">original MT5</a> by <a href="https://github.com/squallooo" class="user-mention">@squallooo</a> and <a href="https://github.com/micbuffa" class="user-mention">@micbuffa</a>. While the original tries to be as cross-browser as possible, this one is optimized for the Gecko rendering engine, with a focus on small resolutions and low-budget CPUs. It also takes advantage of Firefox OS-only features, such as DeviceStorage, and cannot be used outside of Firefox OS yet.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>An online demo of the desktop version is available at <a href="http://mt5demo.gexsoft.com">http://mt5demo.gexsoft.com</a>, but please bear in mind that all the features may not be present in the mobile version.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>MT5 is a multitrack player that has been developed for musicians who like to study a song track by track, or mute some tracks and play along with it.</p>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>This repository contains a nodeJS server to host your audio files and MT5 itself, the mobile client. The default behaviour is that the client will connect to <a href="https://github.com/micbuffa" class="user-mention">@micbuffa</a>'s server, but you can customize the server address in the app.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>A complete tutorial is available in the wiki of this project.</p>
 
-<h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<h2>
+<a id="server-setup" class="anchor" href="#server-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Server setup</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>To run the server, you will need nodeJS and some node modules. Just run <code>npm install</code> to download the modules, then run <code>node server.js</code>.</p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<h2>
+<a id="client-setup" class="anchor" href="#client-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Client setup</h2>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>Just download the app, and put your server IP in the settings menu.</p>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<h2>
+<a id="technical-informations" class="anchor" href="#technical-informations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Technical informations</h2>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>This project is based on Web Audio API allowing to play some songs in the same time and create loops.</p>
+
+<p>The multitrack songs are located in the directory assigned to TRACK_PATH, this is by default client/multitrack, and a multitrack song is just a directory with files in it, corresponding to the tracks. Just create new dir with mp3, ogg, wav files and reload the page, you will be able to play new songs.</p>
+
+<p>Web audio pausing or jumping in a song is way unnatural as the AudioBufferSource nodes can be started and stopped only once. This "fire and forget" approach chosen in web audio for these particular nodes means that we need to rebuild partially the web audio graph at each pause or jump. The play/pause/jump and building of the audio graph is done in the song.js file.</p>
+
+<h2>
+<a id="contributors-" class="anchor" href="#contributors-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors </h2>
+
+<ul>
+<li>Nouriel Azria (Felours)</li>
+<li>Medhy Salim (BrainZz)</li>
+<li>Svetlana Kvasova (kvassova)</li>
+<li>Romain Chalut (RomainChalut) </li>
+<li>Alexis Manganiello (AlexManga)</li>
+<li><p>Alex Pernot (AlexPernot) </p></li>
+<li><p>Michel Buffa (micBuffa)</p></li>
+<li>Didier Courtaud (Desiderius77)</li>
+</ul>
         </section>
 
         <footer>
