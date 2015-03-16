@@ -11,11 +11,8 @@
    "type": "privileged",
 	"permissions": {
 	"systemXHR" : {},
-	  "device-storage:videos":  { "access": "readwrite" },
-	  "device-storage:pictures":{ "access": "readwrite" },
 	  "device-storage:sdcard":  { "access": "readwrite" },
-	  "device-storage:music":   { "access": "readwrite" }
-	  
+	  "device-storage:music":   { "access": "readwrite" }	  
 	}
 
 }
